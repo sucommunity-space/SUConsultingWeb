@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+---
+
+<BaseLayout
+  title="Política de privacidad"
+  description="Política de privacidad y tratamiento de datos de SUConsulting."
+>
+  <PageHeader
+    eyebrow="Legal"
+    title="Política de privacidad"
+    description="Este documento describe de forma general cómo SUConsulting trata la información enviada mediante el sitio web."
+  />
+
+  <section class="section-shell">
+    <Container class="max-w-4xl">
+      <article class="surface-card space-y-8 p-6 md:p-8">
+        <section class="space-y-3">
+          <h2 class="text-2xl font-extrabold text-[#051B3F]">1. Información que recopilamos</h2>
+          <p class="leading-8 text-slate-600">
+            Podemos recopilar datos enviados voluntariamente por el usuario mediante formularios,
+            como nombre, correo electrónico, teléfono, servicio de interés y mensaje.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-2xl font-extrabold text-[#051B3F]">2. Finalidad del tratamiento</h2>
+          <p class="leading-8 text-slate-600">
+            La información se utiliza para responder consultas, orientar sobre servicios,
+            coordinar reuniones y mantener seguimiento relacionado con la solicitud enviada.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-2xl font-extrabold text-[#051B3F]">3. Uso responsable</h2>
+          <p class="leading-8 text-slate-600">
+            SUConsulting procura tratar la información con responsabilidad y aplicar medidas
+            razonables para evitar accesos no autorizados o usos indebidos.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-2xl font-extrabold text-[#051B3F]">4. Servicios de terceros</h2>
+          <p class="leading-8 text-slate-600">
+            Este sitio puede apoyarse en servicios externos necesarios para operar funciones
+            como protección anti-bot, correo o agendamiento. Cada proveedor puede manejar
+            datos bajo sus propias políticas.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-2xl font-extrabold text-[#051B3F]">5. Contacto</h2>
+          <p class="leading-8 text-slate-600">
+            Si deseas consultar o actualizar información enviada mediante este sitio,
+            puedes comunicarte por los canales oficiales mostrados en la página de contacto.
+          </p>
+        </section>
+      </article>
+    </Container>
+  </section>
+</BaseLayout>

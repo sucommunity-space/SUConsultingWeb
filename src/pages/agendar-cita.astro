@@ -1,0 +1,268 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import { booking } from '../data/booking';
+
+const bookingData = booking as {
+  title?: string;
+  description?: string;
+  calendarEmbedUrl?: string;
+  calendarButtonUrl?: string;
+  steps?: string[];
+  policies?: string[];
+};
+
+const steps = bookingData.steps ?? [
+  'Selecciona un horario disponible',
+  'Completa tus datos básicos',
+  'Recibe la confirmación de la reunión'
+];
+
+const policies = bookingData.policies ?? [
+  'Agenda con anticipación',
+  'Revisa tu correo de confirmación',
+  'Si no asistirás, cancela con tiempo'
+];
+
+const faqs = [
+  {
+    q: '¿La reunión se agenda automáticamente?',
+    a: 'Sí, si utilizas el enlace de Google Calendar Appointment Schedule y seleccionas un horario disponible, el proceso puede quedar registrado automáticamente según la configuración activa.'
+  },
+  {
+    q: '¿Qué debo preparar antes de la cita?',
+    a: 'Es recomendable tener claridad básica sobre tu empresa, necesidad, reto principal o servicio de interés. Eso ayuda a aprovechar mejor la conversación.'
+  },
+  {
+    q: '¿La cita está orientada solo a empresas grandes?',
+    a: 'No. SUConsulting está orientado a empresarios, emprendedores, PYMES y empresas familiares que necesitan orientación estratégica y acompañamiento.'
+  },
+  {
+    q: '¿Puedo escribir primero antes de reservar?',
+    a: 'Sí. Si todavía no deseas agendar, puedes usar la página de contacto para comentar tu necesidad y recibir orientación inicial.'
+  }
+];
+---
+
+<BaseLayout
+  title="Agendar cita"
+  description="Agenda una cita con SUConsulting de manera simple, ordenada y con una experiencia clara."
+>
+  <PageHeader
+    eyebrow="Agendamiento"
+    title="Agenda una cita estratégica con claridad y sin fricción"
+    description="Hemos diseñado un proceso simple para que puedas reservar una reunión, entender qué esperar y dar el siguiente paso con orden."
+    primaryCtaLabel="Ir al calendario"
+    primaryCtaHref={bookingData.calendarButtonUrl ?? '/contacto'}
+    secondaryCtaLabel="Contactar primero"
+    secondaryCtaHref="/contacto"
+  />
+
+  <section class="section-shell">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Proceso"
+        title="Cómo funciona el agendamiento"
+        description="Así se estructura la experiencia antes de la reunión para mantener una interacción clara, simple y profesional."
+      />
+
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          steps.map((step, index) => (
+            <Card class="h-full">
+              <div class="space-y-4">
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#051B3F] text-sm font-extrabold text-white">
+                  0{index + 1}
+                </span>
+                <h3 class="text-2xl font-extrabold tracking-tight text-[#051B3F]">
+                  {step}
+                </h3>
+                <p class="leading-7 text-slate-600">
+                  Cada etapa busca reducir fricción y ayudarte a llegar a la reunión con mayor claridad.
+                </p>
+              </div>
+            </Card>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell bg-slate-50/70">
+    <Container>
+      <div class="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+        <Card class="overflow-hidden p-0">
+          <div class="p-6 md:p-8">
+            <div class="space-y-4">
+              <span class="inline-flex rounded-full bg-[#346BB3]/8 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#346BB3]">
+                Reserva tu espacio
+              </span>
+
+              <h2 class="text-3xl font-extrabold tracking-tight text-[#051B3F] md:text-4xl">
+                Selecciona el horario que mejor se adapte a tu agenda
+              </h2>
+
+              <p class="max-w-3xl leading-8 text-slate-600">
+                Puedes reservar tu reunión desde el calendario de agendamiento. Si ya tienes
+                configurado un enlace real de Google Calendar Appointment Schedule, esta sección
+                servirá como punto principal de conversión para la reunión.
+              </p>
+            </div>
+
+            {
+              bookingData.calendarEmbedUrl ? (
+                <div class="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white">
+                  <iframe
+                    src={bookingData.calendarEmbedUrl}
+                    class="h-[680px] w-full"
+                    loading="lazy"
+                    title="Calendario de agendamiento de SUConsulting"
+                  ></iframe>
+                </div>
+              ) : (
+                <div class="mt-8 rounded-3xl border border-dashed border-slate-300 bg-white p-6 md:p-8">
+                  <div class="space-y-5">
+                    <h3 class="text-2xl font-extrabold text-[#051B3F]">
+                      Listo para conectar el calendario real
+                    </h3>
+                    <p class="leading-8 text-slate-600">
+                      En esta primera versión recomendamos usar un botón directo al sistema de
+                      agendamiento. Es más estable, más simple y reduce fricción en móvil y desktop.
+                    </p>
+                    <div class="flex flex-col gap-4 sm:flex-row">
+                      <Button
+                        href={bookingData.calendarButtonUrl ?? '/contacto'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        size="lg"
+                      >
+                        Abrir calendario de agendamiento
+                      </Button>
+
+                      <Button href="/contacto" variant="secondary" size="lg">
+                        Prefiero contactar primero
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+          </div>
+        </Card>
+
+        <div class="grid gap-6">
+          <Card class="h-fit">
+            <div class="space-y-5">
+              <h3 class="text-2xl font-extrabold tracking-tight text-[#051B3F]">
+                Qué esperar de la reunión
+              </h3>
+
+              <p class="leading-8 text-slate-600">
+                La reunión inicial busca entender tu necesidad, revisar el contexto general
+                y orientar el tipo de acompañamiento que puede aportar mayor valor.
+              </p>
+
+              <div class="grid gap-3">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
+                  Espacio de orientación estratégica
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
+                  Enfoque en necesidades reales del negocio
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
+                  Definición del siguiente paso recomendado
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <Card class="h-fit">
+            <div class="space-y-5">
+              <h3 class="text-2xl font-extrabold tracking-tight text-[#051B3F]">
+                Recomendaciones para agendar mejor
+              </h3>
+
+              <ul class="space-y-3">
+                {
+                  policies.map((item) => (
+                    <li class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-700">
+                      {item}
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Preguntas frecuentes"
+        title="Resolvemos dudas antes de tu reunión"
+        description="Una capa adicional de claridad para quienes desean entender mejor el proceso de reserva."
+        align="center"
+      />
+
+      <div class="mx-auto max-w-4xl space-y-4">
+        {
+          faqs.map((item) => (
+            <details class="surface-card overflow-hidden">
+              <summary class="cursor-pointer px-6 py-5 text-left text-lg font-bold text-[#051B3F]">
+                {item.q}
+              </summary>
+              <div class="border-t border-slate-200 px-6 py-5 leading-7 text-slate-600">
+                {item.a}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="hero-glow overflow-hidden rounded-4xl bg-[#051B3F] px-6 py-14 text-white md:px-10 md:py-16">
+        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div class="space-y-4">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-white/70">
+              ¿Necesitas ayuda antes de reservar?
+            </p>
+            <h2 class="text-balance text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl">
+              También puedes escribirnos y orientarte antes de agendar
+            </h2>
+            <p class="max-w-2xl text-lg leading-8 text-white/76">
+              Si todavía no tienes claro qué servicio necesitas o deseas una guía previa,
+              utiliza el formulario de contacto y te ayudaremos a definir el siguiente paso.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+            <Button href="/contacto" size="lg" class="bg-white text-[#051B3F] hover:bg-white/95">
+              Ir a contacto
+            </Button>
+
+            <Button
+              href={bookingData.calendarButtonUrl ?? '/contacto'}
+              variant="secondary"
+              size="lg"
+              class="border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir calendario
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

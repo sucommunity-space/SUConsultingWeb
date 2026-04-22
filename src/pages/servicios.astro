@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import { services } from '../data/services';
+
+const serviceList = services as Array<{
+    id: string;
+    title: string;
+    shortDescription: string;
+    fullDescription: string;
+    benefits?: string[];
+}>;
+
+const process = [
+    {
+    title: 'Diagnóstico',
+    description: 'Entendemos el contexto del negocio, sus necesidades y los puntos de mejora prioritarios.'
+    },
+    {
+    title: 'Estrategia',
+    description: 'Definimos una ruta clara con acciones, prioridades y enfoque de intervención.'
+    },
+    {
+    title: 'Implementación',
+    description: 'Acompañamos la puesta en marcha con estructura, seguimiento y criterio empresarial.'
+    },
+    {
+    title: 'Evaluación',
+    description: 'Revisamos avances, ajustes y resultados para sostener mejoras reales.'
+    }
+];
+---
+<BaseLayout
+    title="Servicios"
+    description="Conoce el portafolio de servicios de SUConsulting."
+>
+<PageHeader
+    eyebrow="Servicios"
+    title="Consultoría estratégica para empresas que quieren crecer con estructura"
+    description="Nuestro portafolio combina gestión, finanzas, continuidad empresarial, sistemas de gestión y soluciones tecnológicas para fortalecer organizaciones con visión de largo plazo."
+    primaryCtaLabel="Agendar cita"
+    primaryCtaHref="/agendar-cita"
+    secondaryCtaLabel="Contactar"
+    secondaryCtaHref="/contacto"
+/>
+
+  <section class="section-shell">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Portafolio"
+        title="Servicios diseñados para resolver necesidades empresariales reales"
+        description="Cada servicio busca transformar claridad estratégica en decisiones, procesos y resultados."
+      />
+
+      <div class="grid gap-6">
+        {
+          serviceList.map((service, index) => (
+            <Card class="overflow-hidden p-0">
+              <div class="grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
+                <div class="p-6 md:p-8">
+                  <div class="space-y-5">
+                    <span class={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] ${
+                      index % 4 === 0
+                        ? 'bg-[#346BB3]/8 text-[#346BB3]'
+                        : index % 4 === 1
+                        ? 'bg-[#C54793]/8 text-[#C54793]'
+                        : index % 4 === 2
+                        ? 'bg-[#71AF2E]/10 text-[#5C9225]'
+                        : 'bg-[#F59D15]/12 text-[#B97307]'
+                    }`}>
+                      Servicio estratégico
+                    </span>
+
+                    <h2 class="text-3xl font-extrabold tracking-tight text-[#051B3F]">
+                      {service.title}
+                    </h2>
+
+                    <p class="leading-8 text-slate-600">
+                      {service.fullDescription || service.shortDescription}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="border-t border-slate-200 bg-slate-50/70 p-6 md:p-8 lg:border-l lg:border-t-0">
+                  <div class="space-y-4">
+                    <h3 class="text-lg font-extrabold text-[#051B3F]">Beneficios clave</h3>
+                    <ul class="space-y-3">
+                      {(service.benefits ?? ['Mayor claridad estratégica', 'Mejor organización interna', 'Soporte para decisiones críticas']).map((benefit) => (
+                        <li class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700">
+                          {benefit}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div class="pt-2">
+                      <Button href="/agendar-cita">Agendar evaluación</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell bg-slate-50/70">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Metodología"
+        title="Un proceso claro para acompañar cada intervención"
+        description="Trabajamos con una lógica ordenada para asegurar comprensión del problema, diseño de ruta y seguimiento."
+      />
+
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {
+          process.map((item, index) => (
+            <Card>
+              <div class="space-y-4">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#051B3F] text-sm font-extrabold text-white">
+                  0{index + 1}
+                </span>
+                <h3 class="text-2xl font-extrabold text-[#051B3F]">{item.title}</h3>
+                <p class="leading-7 text-slate-600">{item.description}</p>
+              </div>
+            </Card>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="hero-glow overflow-hidden rounded-4xl bg-[#051B3F] px-6 py-14 text-white md:px-10">
+        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div class="space-y-4">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-white/70">CTA final</p>
+            <h2 class="text-balance text-3xl font-extrabold md:text-4xl lg:text-5xl">
+              ¿Listo para fortalecer su empresa con una mirada estratégica?
+            </h2>
+            <p class="max-w-2xl text-lg leading-8 text-white/76">
+              Podemos ayudarte a identificar prioridades, ordenar procesos y construir una ruta de crecimiento más clara.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+            <Button href="/agendar-cita" size="lg" class="bg-white text-[#051B3F] hover:bg-white/95">
+              Agendar cita
+            </Button>
+            <Button href="/contacto" variant="secondary" size="lg" class="border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white">
+              Contactar
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

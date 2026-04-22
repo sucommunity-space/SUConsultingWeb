@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+    title?: string;
+    description?: string;
+    noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+
+const siteData = site as {
+    name: string;
+    url?: string;
+    description?: string;
+};
+
+const pageTitle = title ? `${title} | ${siteData.name}` : siteData.name;
+const pageDescription = description ?? siteData.description ?? 'Web institucional de SUConsulting';
+const canonical = new URL(Astro.url.pathname, siteData.url ?? 'https://example.com').toString();
+---
+<!doctype html>
+<html lang="es">
+    <head>
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Anton&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+    />
+    <meta name="theme-color" content="#051B3F" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+    </head>
+
+<body class="min-h-screen bg-white text-slate-900">
+    <Navbar />
+    <main>
+    <slot />
+    </main>
+    <Footer />
+</body>
+
+</html>

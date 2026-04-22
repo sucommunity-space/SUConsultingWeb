@@ -1,17 +1,411 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import Card from '../components/ui/Card.astro';
+import { services } from '../data/services';
+import { professionals } from '../data/professionals';
+import { booking } from '../data/booking';
 
+const servicesData = services as Array<{
+  id: string;
+  title: string;
+  shortDescription: string;
+  benefits?: string[];
+}>;
+
+const professionalsData = professionals as Array<{
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  specialties?: string[];
+}>;
+
+const bookingData = booking as {
+  steps?: string[];
+};
+
+const featuredServices = servicesData.slice(0, 3);
+const featuredProfessionals = professionalsData.slice(0, 4);
+const bookingSteps = bookingData.steps ?? [
+  'Selecciona un horario disponible',
+  'Completa tus datos básicos',
+  'Recibe la confirmación de la reunión'
+];
+
+const values = [
+  {
+    title: 'Servicio',
+    description: 'Acompañamos con intención real de aportar valor, claridad y soporte profesional.'
+  },
+  {
+    title: 'Fe',
+    description: 'Sostenemos una identidad basada en principios firmes y relaciones responsables.'
+  },
+  {
+    title: 'Disciplina',
+    description: 'Promovemos orden, consistencia y ejecución para construir resultados sostenibles.'
+  },
+  {
+    title: 'Unión',
+    description: 'Creemos en la colaboración y en la fuerza de una red empresarial con propósito.'
+  }
+];
+
+const faqs = [
+  {
+    q: '¿SUConsulting trabaja solo con empresas grandes?',
+    a: 'No. El acompañamiento está orientado a empresarios, emprendedores, PYMES y empresas familiares que requieren guía estratégica y orden empresarial.'
+  },
+  {
+    q: '¿Cómo sé qué servicio necesito?',
+    a: 'Puedes agendar una reunión inicial o escribirnos por la página de contacto. El objetivo es ayudarte a identificar el siguiente paso con mayor claridad.'
+  },
+  {
+    q: '¿La reunión inicial busca vender directamente?',
+    a: 'La prioridad es entender tu contexto, revisar necesidades y orientar una ruta adecuada antes de plantear cualquier acompañamiento.'
+  }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Inicio"
+  description="Consultoría estratégica, institucional y empresarial para organizaciones que buscan crecer con visión, orden y principios."
+>
+  <section class="hero-grid section-shell overflow-hidden">
+    <Container>
+      <div class="hero-glow surface-dark overflow-hidden rounded-4xl px-6 py-10 shadow-[var(--shadow-hero)] md:px-10 md:py-14 lg:px-14 lg:py-16">
+        <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <div class="space-y-8">
+            <span class="inline-flex rounded-full border border-white/14 bg-white/8 px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/78">
+              Consultoría estratégica institucional
+            </span>
+
+            <div class="space-y-5">
+              <h1 class="text-balance max-w-4xl text-4xl font-extrabold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+                Lleve su organización al siguiente nivel con visión, orden y propósito.
+              </h1>
+
+              <p class="max-w-2xl text-lg leading-8 text-white/78 md:text-xl">
+                Acompañamos a empresarios, líderes y emprendedores con soluciones consultivas serias,
+                humanas y estratégicas para fortalecer decisiones, procesos y crecimiento sostenible.
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-4 sm:flex-row">
+              <Button href="/agendar-cita" size="lg">
+                Agendar sesión estratégica
+              </Button>
+              <Button
+                href="/servicios"
+                variant="secondary"
+                size="lg"
+                class="border-white/18 bg-white text-[#051B3F] hover:bg-white/95"
+              >
+                Ver servicios
+              </Button>
+            </div>
+
+            <div class="flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/72">
+              <span>Sin compromiso inicial</span>
+              <span>Diagnóstico orientativo</span>
+              <span>Soporte estratégico</span>
+            </div>
+          </div>
+
+          <div class="grid gap-4">
+            <div class="rounded-[1.75rem] border border-white/12 bg-white/8 p-6 backdrop-blur-sm">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-white/70">Enfoque</p>
+              <p class="mt-4 text-2xl font-extrabold leading-tight text-white">
+                Empresas competitivas con principios sólidos.
+              </p>
+              <p class="mt-3 leading-7 text-white/68">
+                Estrategia, acompañamiento humano y dirección empresarial para decisiones más firmes.
+              </p>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="rounded-3xl border border-white/10 bg-white/8 p-5">
+                <p class="text-3xl font-extrabold text-[#9ED15B]">5+</p>
+                <p class="mt-2 text-sm text-white/72">Áreas consultivas clave</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-white/8 p-5">
+                <p class="text-3xl font-extrabold text-[#FFD089]">100%</p>
+                <p class="mt-2 text-sm text-white/72">Orientación estratégica</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="grid gap-6 md:grid-cols-3">
+        <Card>
+          <div class="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#346BB3]/10 text-[#346BB3]">◎</div>
+            <h3 class="text-xl font-extrabold text-[#051B3F]">Integridad estratégica</h3>
+            <p class="leading-7 text-slate-600">
+              Decisiones empresariales alineadas a principios, propósito y visión de largo plazo.
+            </p>
+          </div>
+        </Card>
+
+        <Card>
+          <div class="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#71AF2E]/10 text-[#71AF2E]">◌</div>
+            <h3 class="text-xl font-extrabold text-[#051B3F]">Rigor profesional</h3>
+            <p class="leading-7 text-slate-600">
+              Acompañamiento técnico para gestión, orden financiero, continuidad y fortalecimiento organizacional.
+            </p>
+          </div>
+        </Card>
+
+        <Card>
+          <div class="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#C54793]/10 text-[#C54793]">◐</div>
+            <h3 class="text-xl font-extrabold text-[#051B3F]">Enfoque humano</h3>
+            <p class="leading-7 text-slate-600">
+              Construimos confianza con líderes y organizaciones para impulsar cambios sostenibles.
+            </p>
+          </div>
+        </Card>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell section-soft">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Servicios destacados"
+        title="Soluciones consultivas para fortalecer empresas y líderes"
+        description="Un portafolio pensado para resolver necesidades clave de gestión, crecimiento y sostenibilidad."
+      />
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        {
+          featuredServices.map((service, index) => (
+            <Card class="flex h-full flex-col justify-between">
+              <div class="space-y-4">
+                <span class={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.15em] ${
+                  index === 0
+                    ? 'bg-[#346BB3]/8 text-[#346BB3]'
+                    : index === 1
+                    ? 'bg-[#71AF2E]/12 text-[#5D9028]'
+                    : 'bg-[#C54793]/8 text-[#C54793]'
+                }`}>
+                  Servicio
+                </span>
+                <h3 class="text-2xl font-extrabold text-[#051B3F]">{service.title}</h3>
+                <p class="leading-7 text-slate-600">{service.shortDescription}</p>
+              </div>
+
+              <div class="mt-6 space-y-3">
+                <div class="soft-divider"></div>
+                <Button href="/servicios" variant="ghost" class="px-0 text-[#346BB3] hover:bg-transparent">
+                  Explorar servicio
+                </Button>
+              </div>
+            </Card>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <div class="space-y-6">
+          <SectionTitle
+            eyebrow="Quiénes somos"
+            title="Una firma consultiva con visión empresarial y propósito"
+            description="SUConsulting impulsa una red de empresarios y emprendedores orientada al crecimiento responsable, competitivo y sostenible."
+          />
+          <p class="max-w-xl leading-8 text-slate-600">
+            Nuestro enfoque integra acompañamiento humano, criterio técnico y dirección estratégica
+            para fortalecer organizaciones con bases sólidas, decisiones mejor informadas y visión de futuro.
+          </p>
+          <Button href="/quienes-somos">Conocer nuestra visión</Button>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          {
+            values.map((value, index) => (
+              <Card class="h-full">
+                <div class="space-y-4">
+                  <div class={`h-12 w-12 rounded-2xl ${
+                    index === 0
+                      ? 'bg-[#346BB3]/10'
+                      : index === 1
+                      ? 'bg-[#C54793]/10'
+                      : index === 2
+                      ? 'bg-[#F59D15]/12'
+                      : 'bg-[#71AF2E]/10'
+                  }`}></div>
+                  <h3 class="text-xl font-extrabold text-[#051B3F]">{value.title}</h3>
+                  <p class="leading-7 text-slate-600">{value.description}</p>
+                </div>
+              </Card>
+            ))
+          }
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell section-soft">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Profesionales"
+        title="Una red de especialistas para acompañar decisiones importantes"
+        description="Perfiles con experiencia, enfoque consultivo y criterio organizacional."
+      />
+
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {
+          featuredProfessionals.map((person, index) => (
+            <Card class="text-center">
+              <div class={`mx-auto flex h-18 w-18 items-center justify-center rounded-3xl text-xl font-extrabold text-white ${
+                index === 0
+                  ? 'bg-[#051B3F]'
+                  : index === 1
+                  ? 'bg-[#346BB3]'
+                  : index === 2
+                  ? 'bg-[#C54793]'
+                  : 'bg-[#71AF2E]'
+              }`}>
+                {person.name
+                  .split(' ')
+                  .slice(0, 2)
+                  .map((part) => part[0])
+                  .join('')}
+              </div>
+
+              <h3 class="mt-5 text-xl font-extrabold text-[#051B3F]">{person.name}</h3>
+              <p class="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                {person.role}
+              </p>
+              <p class="mt-4 leading-7 text-slate-600">{person.bio}</p>
+
+              <div class="mt-5 flex flex-wrap justify-center gap-2">
+                {(person.specialties ?? []).slice(0, 2).map((tag) => (
+                  <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </Card>
+          ))
+        }
+      </div>
+
+      <div class="flex justify-center">
+        <Button href="/profesionales" variant="secondary">Ver portafolio completo</Button>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="surface-panel overflow-hidden p-6 md:p-8 lg:p-10">
+        <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <div class="space-y-5">
+            <span class="badge-ui">Cómo agendar</span>
+            <h2 class="text-balance text-3xl font-extrabold tracking-tight text-[#051B3F] md:text-4xl lg:text-5xl">
+              Agenda una reunión con un proceso simple y profesional
+            </h2>
+            <p class="text-lg leading-8 text-slate-600">
+              Presentamos un flujo claro para que puedas reservar con confianza y entender qué esperar desde el primer contacto.
+            </p>
+            <Button href="/agendar-cita" size="lg">Ir a agendamiento</Button>
+          </div>
+
+          <div class="grid gap-4">
+            {
+              bookingSteps.map((step, index) => (
+                <div class="panel-line rounded-3xl p-5">
+                  <div class="flex items-start gap-4">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#051B3F] text-sm font-extrabold text-white">
+                      0{index + 1}
+                    </span>
+                    <div>
+                      <p class="text-lg font-bold text-[#051B3F]">{step}</p>
+                      <p class="mt-1 text-sm leading-7 text-slate-600">
+                        Un proceso diseñado para mantener claridad, orden y menor fricción.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell section-soft">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Preguntas frecuentes"
+        title="Resolvemos dudas antes de iniciar"
+        description="Una capa de claridad para usuarios que desean entender mejor cómo trabajamos."
+        align="center"
+      />
+
+      <div class="mx-auto max-w-4xl space-y-4">
+        {
+          faqs.map((item) => (
+            <details class="surface-card overflow-hidden">
+              <summary class="cursor-pointer px-6 py-5 text-left text-lg font-bold text-[#051B3F]">
+                {item.q}
+              </summary>
+              <div class="border-t border-slate-200 px-6 py-5 leading-7 text-slate-600">
+                {item.a}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="hero-glow surface-dark overflow-hidden rounded-4xl px-6 py-14 md:px-10 md:py-16">
+        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div class="space-y-4">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-white/70">
+              CTA final
+            </p>
+            <h2 class="text-balance text-3xl font-extrabold md:text-4xl lg:text-5xl">
+              Conversemos sobre el siguiente paso de su organización
+            </h2>
+            <p class="max-w-2xl text-lg leading-8 text-white/76">
+              Agenda una reunión o escríbenos para identificar la mejor ruta de acompañamiento.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+            <Button href="/agendar-cita" size="lg" class="bg-white text-[#051B3F] hover:bg-white/95">
+              Agendar reunión
+            </Button>
+            <Button
+              href="/contacto"
+              variant="secondary"
+              size="lg"
+              class="border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white"
+            >
+              Contactar ahora
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+<div class={`surface-card fade-lift p-6 md:p-7 ${className}`}>
+  <slot />
+</div>

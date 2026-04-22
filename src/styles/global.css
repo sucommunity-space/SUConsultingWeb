@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-soft: #eef4fb;
+  --color-surface-muted: #f3f6fb;
+
+  --color-primary: #051b3f;
+  --color-primary-strong: #041631;
+  --color-primary-soft: #0a2e63;
+  --color-secondary: #346bb3;
+  --color-secondary-soft: #dce8f8;
+
+  --color-accent: #c54793;
+  --color-accent-soft: #f6d7e9;
+
+  --color-success: #71af2e;
+  --color-success-soft: #e8f4d9;
+
+  --color-warning: #f59d15;
+  --color-warning-soft: #fff1d8;
+
+  --color-text: #0f172a;
+  --color-text-soft: #475569;
+  --color-text-muted: #64748b;
+  --color-border: #d9e1ec;
+
+  --shadow-soft: 0 10px 30px rgba(5, 27, 63, 0.06);
+  --shadow-card: 0 18px 50px rgba(5, 27, 63, 0.08);
+  --shadow-hero: 0 30px 80px rgba(5, 27, 63, 0.16);
+
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(52, 107, 179, 0.16);
+}
+
+a,
+button,
+input,
+textarea,
+select,
+summary {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.section-shell {
+  @apply py-16 md:py-20 lg:py-24;
+}
+
+.section-soft {
+  background: linear-gradient(180deg, #f8fafc 0%, #f2f6fb 100%);
+}
+
+.surface-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(5, 27, 63, 0.08);
+  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-card);
+}
+
+.surface-panel {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(5, 27, 63, 0.08);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-panel);
+}
+
+.surface-dark {
+  background:
+    radial-gradient(circle at top right, rgba(52, 107, 179, 0.24), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(197, 71, 147, 0.14), transparent 20%),
+    linear-gradient(135deg, #051b3f 0%, #08285a 100%);
+  color: white;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(5, 27, 63, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 27, 63, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.hero-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-glow::before,
+.hero-glow::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  z-index: -1;
+  filter: blur(24px);
+  opacity: 0.18;
+}
+
+.hero-glow::before {
+  width: 18rem;
+  height: 18rem;
+  top: -3rem;
+  right: -2rem;
+  background: #346bb3;
+}
+
+.hero-glow::after {
+  width: 14rem;
+  height: 14rem;
+  left: -2rem;
+  bottom: -2rem;
+  background: #c54793;
+}
+
+.panel-line {
+  border: 1px solid rgba(5, 27, 63, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.badge-ui {
+  @apply inline-flex rounded-full px-4 py-1 text-xs font-bold uppercase tracking-[0.18em];
+  background: rgba(52, 107, 179, 0.08);
+  color: var(--color-secondary);
+  border: 1px solid rgba(52, 107, 179, 0.18);
+}
+
+.glow-button {
+  box-shadow: 0 14px 30px rgba(52, 107, 179, 0.22);
+}
+
+.fade-lift:hover {
+  transform: translateY(-4px);
+}
+
+.footer-grid {
+  background-image:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(52, 107, 179, 0.18), transparent 20%);
+}
+
+.soft-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(5, 27, 63, 0.12), transparent);
+}

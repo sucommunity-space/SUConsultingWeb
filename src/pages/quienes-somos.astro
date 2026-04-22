@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import { professionals } from '../data/professionals';
+
+const people = (professionals as Array<{
+    name: string;
+    role: string;
+    bio: string;
+}>).slice(0, 4);
+
+const values = [
+    {
+    title: 'Servicio',
+    description: 'Acompañamos a cada organización con atención genuina, criterio profesional y orientación al valor.'
+    },
+    {
+    title: 'Fe',
+    description: 'Nuestra identidad se sostiene en principios que guían relaciones responsables y decisiones con propósito.'
+    },
+    {
+    title: 'Disciplina',
+    description: 'Promovemos orden, consistencia y ejecución rigurosa para transformar la gestión en resultados sostenibles.'
+    },
+    {
+    title: 'Unión',
+    description: 'Impulsamos redes, colaboración y construcción conjunta entre empresarios, líderes y equipos.'
+    }
+];
+
+const differentiators = [
+    'Visión estratégica con enfoque empresarial',
+    'Acompañamiento humano y cercano',
+    'Consultoría alineada a principios',
+    'Experiencia en PYMES y empresas familiares',
+    'Enfoque práctico, no solo teórico',
+    'Diseño de soluciones a medida'
+];
+---
+<BaseLayout
+    title="¿Quiénes somos?"
+    description="Conoce la visión, propósito y diferenciadores de SUConsulting."
+>
+    <PageHeader
+    eyebrow="Empresa"
+    title="¿Quiénes somos?"
+    description="SUConsulting es una firma consultiva orientada a fortalecer organizaciones, empresarios y emprendedores mediante acompañamiento estratégico, orden empresarial y principios sólidos."
+    primaryCtaLabel="Ver servicios"
+    primaryCtaHref="/servicios"
+    secondaryCtaLabel="Agendar cita"
+    secondaryCtaHref="/agendar-cita"
+    />
+
+    <section class="section-shell">
+    <Container>
+        <div class="grid gap-6 lg:grid-cols-3">
+        <Card class="lg:col-span-2">
+            <div class="space-y-5">
+            <span class="inline-flex rounded-full bg-[#346BB3]/8 px-3 py-1 text-xs font-bold uppercase tracking-[0.15em] text-[#346BB3]">
+                Nuestra historia
+            </span>
+            <h2 class="text-3xl font-extrabold tracking-tight text-[#051B3F]">
+                Consultoría con propósito para empresas que quieren crecer bien.
+            </h2>
+            <p class="leading-8 text-slate-600">
+                SUConsulting pertenece a SUC CORPORATION SAC y nace con una visión clara:
+                colaborar en la formación de una red cristiana de empresarios y emprendedores
+                capaz de construir organizaciones competitivas, éticas y sostenibles.
+            </p>
+            <p class="leading-8 text-slate-600">
+                Nuestro trabajo busca unir estrategia, estructura, disciplina y acompañamiento
+                real para que los líderes tomen mejores decisiones y fortalezcan sus procesos,
+                equipos y oportunidades de crecimiento.
+            </p>
+            </div>
+        </Card>
+
+        <Card class="surface-dark">
+            <div class="space-y-6">
+            <div>
+                <p class="text-sm font-bold uppercase tracking-[0.16em] text-white/70">Propósito</p>
+                <p class="mt-3 text-lg leading-8 text-white/85">
+                    Impulsar organizaciones y líderes con acompañamiento estratégico basado en principios.
+                </p>
+            </div>
+
+            <div>
+                <p class="text-sm font-bold uppercase tracking-[0.16em] text-white/70">Marca</p>
+                <p class="mt-3 text-2xl font-extrabold text-white">Socios</p>
+            </div>
+            </div>
+        </Card>
+        </div>
+    </Container>
+    </section>
+
+    <section class="section-shell bg-slate-50/70">
+    <Container class="space-y-10">
+        <SectionTitle
+        eyebrow="Fundamentos"
+        title="Misión, visión y enfoque institucional"
+        description="Tres pilares para entender cómo trabajamos y qué tipo de acompañamiento construimos."
+        />
+
+        <div class="grid gap-6 lg:grid-cols-3">
+        <Card>
+            <h3 class="text-2xl font-extrabold text-[#051B3F]">Misión</h3>
+            <p class="mt-4 leading-8 text-slate-600">
+                Acompañar a empresarios, líderes y organizaciones con soluciones consultivas que fortalezcan su competitividad, orden y sostenibilidad.
+            </p>
+        </Card>
+
+        <Card>
+            <h3 class="text-2xl font-extrabold text-[#051B3F]">Visión</h3>
+            <p class="mt-4 leading-8 text-slate-600">
+                Contribuir al desarrollo de empresas sólidas y competitivas en el mercado nacional y regional mediante dirección estratégica con principios.
+            </p>
+        </Card>
+
+        <Card>
+            <h3 class="text-2xl font-extrabold text-[#051B3F]">Enfoque</h3>
+            <p class="mt-4 leading-8 text-slate-600">
+                Integramos estrategia, acompañamiento humano, disciplina operativa y pensamiento empresarial aplicado a contextos reales.
+            </p>
+        </Card>
+        </div>
+    </Container>
+    </section>
+
+    <section class="section-shell">
+    <Container class="space-y-10">
+        <SectionTitle
+        eyebrow="Valores"
+        title="Principios que orientan cada intervención"
+        description="Nuestro marco de trabajo busca generar impacto organizacional sin perder el sentido humano."
+        />
+
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {
+            values.map((value, index) => (
+            <Card>
+                <div class="space-y-4">
+                <div class={`h-12 w-12 rounded-2xl ${
+                    index === 0
+                    ? 'bg-[#346BB3]/10'
+                    : index === 1
+                    ? 'bg-[#C54793]/10'
+                    : index === 2
+                    ? 'bg-[#F59D15]/10'
+                    : 'bg-[#71AF2E]/10'
+                }`}></div>
+                <h3 class="text-2xl font-extrabold text-[#051B3F]">{value.title}</h3>
+                <p class="leading-7 text-slate-600">{value.description}</p>
+                </div>
+            </Card>
+            ))
+        }
+        </div>
+    </Container>
+    </section>
+
+    <section class="section-shell bg-slate-50/70">
+    <Container class="space-y-10">
+        <SectionTitle
+        eyebrow="Diferenciadores"
+        title="Lo que hace distinta la propuesta de SUConsulting"
+        description="No solo trabajamos desde el análisis; construimos claridad, dirección y acompañamiento aplicado."
+        />
+
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {
+            differentiators.map((item) => (
+            <Card class="py-5">
+                <p class="font-semibold text-[#051B3F]">{item}</p>
+            </Card>
+            ))
+        }
+        </div>
+    </Container>
+    </section>
+
+    <section class="section-shell">
+    <Container class="space-y-10">
+        <SectionTitle
+        eyebrow="Equipo"
+        title="Una red de profesionales comprometidos con el crecimiento organizacional"
+        description="Perfiles con enfoque consultivo, mirada estratégica y experiencia en distintas áreas de gestión."
+        />
+
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {
+            people.map((person, index) => (
+            <Card class="text-center">
+                <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl text-xl font-extrabold text-white ${
+                index % 4 === 0
+                    ? 'bg-[#051B3F]'
+                    : index % 4 === 1
+                    ? 'bg-[#346BB3]'
+                    : index % 4 === 2
+                    ? 'bg-[#C54793]'
+                    : 'bg-[#71AF2E]'
+                }">
+                {person.name
+                    .split(' ')
+                    .slice(0, 2)
+                    .map((part) => part[0])
+                    .join('')}
+                </div>
+                <h3 class="mt-5 text-xl font-extrabold text-[#051B3F]">{person.name}</h3>
+                <p class="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                {person.role}
+                </p>
+                <p class="mt-4 leading-7 text-slate-600">{person.bio}</p>
+            </Card>
+            ))
+        }
+        </div>
+
+        <div class="flex justify-center">
+        <Button href="/profesionales" variant="secondary">Ver portafolio completo</Button>
+        </div>
+    </Container>
+    </section>
+</BaseLayout>

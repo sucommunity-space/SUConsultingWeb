@@ -1,0 +1,44 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  align = 'left',
+  class: className = ''
+} = Astro.props;
+
+const alignMap = {
+  left: 'text-left items-start',
+  center: 'text-center items-center'
+};
+---
+<div class={`flex flex-col gap-4 ${alignMap[align]} ${className}`}>
+  {
+    eyebrow && (
+      <span class="badge-ui">
+        {eyebrow}
+      </span>
+    )
+  }
+
+  <div class="max-w-3xl space-y-3">
+    <h2 class="text-balance text-3xl font-extrabold tracking-tight text-[#051B3F] md:text-4xl lg:text-5xl">
+      {title}
+    </h2>
+    {
+      description && (
+        <p class="text-balance text-base leading-8 text-slate-600 md:text-lg">
+          {description}
+        </p>
+      )
+    }
+  </div>
+</div>

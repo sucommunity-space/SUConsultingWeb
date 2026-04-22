@@ -1,0 +1,78 @@
+---
+import Container from '../ui/Container.astro';
+import { site } from '../../data/site';
+
+const siteData = site as {
+  name: string;
+  legalName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  nav?: Array<{ label: string; href: string }>;
+};
+
+const year = new Date().getFullYear();
+---
+<footer class="footer-grid mt-24 border-t border-white/10 bg-[#051B3F] text-white">
+  <Container class="py-16">
+    <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+      <div class="space-y-5">
+        <div class="flex items-center gap-3">
+          <span class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-sm font-extrabold">
+            SU
+          </span>
+          <div>
+            <p class="text-lg font-extrabold">{siteData.name}</p>
+            <p class="text-sm text-white/70">{siteData.legalName ?? siteData.name}</p>
+          </div>
+        </div>
+        <p class="max-w-md text-sm leading-7 text-white/72">
+          Impulsamos organizaciones con acompañamiento estratégico, visión empresarial y principios sólidos.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-extrabold uppercase tracking-[0.16em] text-white/90">Navegación</h3>
+        <ul class="mt-4 space-y-3">
+          {
+            (siteData.nav ?? []).map((item) => (
+              <li>
+                <a href={item.href} class="text-sm text-white/72 hover:text-white">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-extrabold uppercase tracking-[0.16em] text-white/90">Empresa</h3>
+        <ul class="mt-4 space-y-3 text-sm text-white/72">
+          <li>Consultoría estratégica</li>
+          <li>Planes de negocio</li>
+          <li>Continuidad empresarial</li>
+          <li>Soluciones tecnológicas</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-extrabold uppercase tracking-[0.16em] text-white/90">Contacto</h3>
+        <div class="mt-4 space-y-3 text-sm text-white/72">
+          {siteData.email && <p>{siteData.email}</p>}
+          {siteData.phone && <p>{siteData.phone}</p>}
+          {siteData.address && <p>{siteData.address}</p>}
+          <p>Lun - Vie · 09:00 a 18:00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/55 md:flex-row md:items-center md:justify-between">
+      <p>© {year} {siteData.legalName ?? siteData.name}. Todos los derechos reservados.</p>
+      <div class="flex gap-4">
+        <a href="/privacidad" class="hover:text-white">Privacidad</a>
+        <a href="/contacto" class="hover:text-white">Contacto</a>
+      </div>
+    </div>
+  </Container>
+</footer>

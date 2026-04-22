@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import { professionals } from '../data/professionals';
+
+const people = professionals as Array<{
+    id: string;
+    name: string;
+    role: string;
+    bio: string;
+    specialties?: string[];
+}>;
+
+const specialties = [
+    'Gestión empresarial',
+    'Finanzas y contabilidad',
+    'Planes de negocio',
+    'Continuidad empresarial',
+    'Normas ISO',
+    'Soluciones tecnológicas'
+];
+---
+<BaseLayout
+    title="Profesionales"
+    description="Conoce el portafolio de profesionales de SUConsulting."
+>
+<PageHeader
+    eyebrow="Equipo y red profesional"
+    title="Portafolio de profesionales"
+    description="Conectamos organizaciones con especialistas capaces de acompañar decisiones, procesos y desafíos estratégicos desde un enfoque humano y empresarial."
+    primaryCtaLabel="Agendar cita"
+    primaryCtaHref="/agendar-cita"
+    secondaryCtaLabel="Ver servicios"
+    secondaryCtaHref="/servicios"
+/>
+
+  <section class="section-shell">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Directorio"
+        title="Perfiles con visión consultiva y compromiso profesional"
+        description="Cada perfil forma parte de una red orientada a fortalecer organizaciones con criterio técnico y acompañamiento cercano."
+      />
+
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {
+          people.map((person, index) => (
+            <Card class="flex h-full flex-col">
+              <div class="flex items-start gap-4">
+                <div class={`flex h-18 w-18 shrink-0 items-center justify-center rounded-3xl text-xl font-extrabold text-white ${
+                  index % 4 === 0
+                    ? 'bg-[#051B3F]'
+                    : index % 4 === 1
+                    ? 'bg-[#346BB3]'
+                    : index % 4 === 2
+                    ? 'bg-[#C54793]'
+                    : 'bg-[#71AF2E]'
+                }`}>
+                  {person.name
+                    .split(' ')
+                    .slice(0, 2)
+                    .map((part) => part[0])
+                    .join('')}
+                </div>
+
+                <div class="space-y-2">
+                  <h2 class="text-2xl font-extrabold tracking-tight text-[#051B3F]">
+                    {person.name}
+                  </h2>
+                  <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                    {person.role}
+                  </p>
+                </div>
+              </div>
+
+              <p class="mt-5 leading-8 text-slate-600">
+                {person.bio}
+              </p>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                {(person.specialties ?? specialties.slice(index % 3, index % 3 + 3)).map((tag) => (
+                  <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div class="mt-6 pt-2">
+                <Button href="/agendar-cita" variant="secondary">Solicitar reunión</Button>
+              </div>
+            </Card>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell bg-slate-50/70">
+    <Container class="space-y-10">
+      <SectionTitle
+        eyebrow="Áreas de experiencia"
+        title="Especialidades que fortalecen el acompañamiento"
+        description="Nuestro portafolio busca responder a necesidades empresariales frecuentes en crecimiento, ordenamiento y gestión."
+      />
+
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {
+          specialties.map((item) => (
+            <Card class="py-5">
+              <p class="font-semibold text-[#051B3F]">{item}</p>
+            </Card>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="section-shell">
+    <Container>
+      <div class="hero-glow overflow-hidden rounded-4xl bg-[#051B3F] px-6 py-14 text-white md:px-10">
+        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div class="space-y-4">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-white/70">
+              ¿Necesita orientación?
+            </p>
+            <h2 class="text-balance text-3xl font-extrabold md:text-4xl lg:text-5xl">
+              Le ayudamos a identificar el perfil consultivo más adecuado.
+            </h2>
+            <p class="max-w-2xl text-lg leading-8 text-white/76">
+              Si no sabes por dónde empezar, podemos orientarte y conectar tu necesidad con el tipo de acompañamiento correcto.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+            <Button href="/contacto" size="lg" class="bg-white text-[#051B3F] hover:bg-white/95">
+              Solicitar orientación
+            </Button>
+            <Button href="/agendar-cita" variant="secondary" size="lg" class="border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white">
+              Agendar cita
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

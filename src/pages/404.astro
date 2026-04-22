@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página que buscas no está disponible."
+  noindex={true}
+>
+  <section class="section-shell">
+    <Container>
+      <div class="hero-glow mx-auto max-w-4xl overflow-hidden rounded-4xl bg-[#051B3F] px-6 py-16 text-center text-white md:px-10 md:py-24">
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-white/70">Error 404</p>
+        <h1 class="mt-4 text-balance text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+          Esta página no existe o fue movida.
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/76">
+          Vuelve al inicio o dirígete a una sección principal del sitio para continuar navegando.
+        </p>
+
+        <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button href="/" size="lg" class="bg-white text-[#051B3F] hover:bg-white/95">
+            Ir al inicio
+          </Button>
+          <Button
+            href="/contacto"
+            variant="secondary"
+            size="lg"
+            class="border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white"
+          >
+            Contacto
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
