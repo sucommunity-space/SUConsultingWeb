@@ -1,10 +1,9 @@
-# build output
-dist/
-# generated types
-.astro/
-
 # dependencies
 node_modules/
+
+# build
+dist/
+.astro/
 
 # logs
 npm-debug.log*
@@ -12,13 +11,16 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
 .env.production
 
-# macOS-specific files
+# system files
 .DS_Store
 
-# jetbrains setting folder
+# IDE
+.vscode/
 .idea/
+
+# sensitive backend config
+backend/config/mail-config.php
