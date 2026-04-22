@@ -1,26 +1,70 @@
 # dependencies
 node_modules/
+jspm_packages/
 
 # build
 dist/
 .astro/
+build/Release
+coverage/
+.nyc_output
+.cache/
+.parcel-cache
+.next
+out
+.nuxt
+.svelte-kit/
+.temp
+.docusaurus
+.serverless/
+.fusebox/
+.dynamodb/
+.firebase/
+web_modules/
 
 # logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# runtime / diagnostics
+pids
+*.pid
+*.seed
+*.pid.lock
+report.*.json
+lib-cov
 
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
+
+# caches
+.npm
+.eslintcache
+.stylelintcache
+.node_repl_history
+*.tsbuildinfo
+.yarn-integrity
+.pnp.*
 
 # system files
 .DS_Store
 
 # IDE
 .vscode/
+.vscode-test
 .idea/
+
+# package artifacts
+*.tgz
 
 # sensitive backend config
 backend/config/mail-config.php
