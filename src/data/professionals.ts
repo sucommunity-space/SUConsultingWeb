@@ -4,11 +4,11 @@ export const professionals: Professional[] = [
   {
     id: 'manuel-espinoza',
     slug: 'manuel-espinoza',
-    name: 'Manuel Francisco Espinoza Dextre',
+    name: 'Diego Zorrilla Green',
     role: 'Consultor estratégico',
     specialties: ['Gestión empresarial', 'Tecnología', 'Estrategia'],
     bio: 'Perfil orientado al acompañamiento estratégico, estructura de servicios y fortalecimiento organizacional.',
-    image: '/images/professionals/manuel.webp',
+    image: '/images/professionals/professional-1.webp',
     featured: true
   },
   {
@@ -18,7 +18,7 @@ export const professionals: Professional[] = [
     role: 'Consultora de soporte y coordinación',
     specialties: ['Gestión', 'Organización', 'Atención consultiva'],
     bio: 'Perfil enfocado en soporte organizacional, coordinación de procesos y acompañamiento de iniciativas empresariales.',
-    image: '/images/professionals/xiomara.webp',
+    image: '/images/professionals/professional-2.webp',
     featured: true
   },
   {
@@ -28,7 +28,7 @@ export const professionals: Professional[] = [
     role: 'Consultor asociado',
     specialties: ['Finanzas', 'Contabilidad', 'Análisis'],
     bio: 'Profesional asociado para acompañamiento en áreas financieras y mejora de gestión.',
-    image: '/images/professionals/asesor-1.webp'
+    image: '/images/professionals/professional-4.webp'
   },
   {
     id: 'equipo-asesor-2',
@@ -37,6 +37,6 @@ export const professionals: Professional[] = [
     role: 'Consultor asociado',
     specialties: ['ISO', 'Procesos', 'Mejora continua'],
     bio: 'Especialista de apoyo en organización de procesos y enfoque de mejora continua.',
-    image: '/images/professionals/asesor-2.webp'
+    image: '/images/professionals/professional-5.webp'
   }
 ];

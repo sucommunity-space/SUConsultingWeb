@@ -1,0 +1,134 @@
+---
+import Container from "../../ui/Container.astro";
+
+const items = [
+  {
+    value: "+120",
+    target: 120,
+    prefix: "+",
+    suffix: "",
+    label: "organizaciones acompanadas",
+    color: "var(--brand-magenta)"
+  },
+  {
+    value: "15+",
+    target: 15,
+    prefix: "",
+    suffix: "+",
+    label: "anos de experiencia combinada",
+    color: "var(--brand-green)"
+  },
+  {
+    value: "98%",
+    target: 98,
+    prefix: "",
+    suffix: "%",
+    label: "proyectos con enfoque sostenible",
+    color: "var(--brand-blue)"
+  },
+  {
+    value: "SUC",
+    label: "consultoria con proposito",
+    color: "var(--brand-orange)"
+  }
+];
+---
+
+<section class="trust-bar-section" aria-label="Indicadores de confianza">
+  <Container>
+    <div class="trust-bar">
+      {items.map((item) => (
+        <div class="trust-bar__item" style={`--trust-color:${item.color}`}>
+          <span class="trust-bar__dot"></span>
+
+          <div class="trust-bar__copy">
+            {typeof item.target === "number" ? (
+              <strong
+                class="trust-bar__value"
+                data-countup
+                data-target={String(item.target)}
+                data-prefix={item.prefix}
+                data-suffix={item.suffix}
+              >
+                {item.prefix}0{item.suffix}
+              </strong>
+            ) : (
+              <strong>{item.value}</strong>
+            )}
+            <p>{item.label}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<script is:inline>
+  (() => {
+    const values = Array.from(document.querySelectorAll(".trust-bar__value[data-countup]"));
+
+    if (!values.length) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const renderValue = (element, value) => {
+      const prefix = element.dataset.prefix || "";
+      const suffix = element.dataset.suffix || "";
+      element.textContent = `${prefix}${Math.round(value)}${suffix}`;
+    };
+
+    const animateValue = (element) => {
+      if (element.dataset.animated === "true") return;
+
+      element.dataset.animated = "true";
+
+      const target = Number(element.dataset.target || "0");
+
+      if (reduceMotion) {
+        renderValue(element, target);
+        return;
+      }
+
+      const duration = 1500;
+      const start = performance.now();
+
+      const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        renderValue(element, target * eased);
+
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    };
+
+    if (!("IntersectionObserver" in window) || reduceMotion) {
+      values.forEach((value) => animateValue(value));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          const target = entry.target.querySelector(".trust-bar__value[data-countup]");
+
+          if (target) animateValue(target);
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.45
+      }
+    );
+
+    values.forEach((value) => {
+      const item = value.closest(".trust-bar__item");
+      if (item) observer.observe(item);
+    });
+  })();
+</script>

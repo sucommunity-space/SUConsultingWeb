@@ -1,0 +1,28 @@
+---
+interface Props {
+  variant?: "horizontal" | "symbol";
+  tone?: "default" | "light";
+  class?: string;
+}
+
+const {
+  variant = "horizontal",
+  tone = "default",
+  class: className = ""
+} = Astro.props;
+
+const logoSrc =
+  tone === "light"
+    ? "/images/brand/logo-suc-light.png"
+    : "/images/brand/logo-suc.png";
+---
+
+<div class={`suc-logo ${tone === "light" ? "suc-logo--light" : ""} ${className}`}>
+  <img
+    src={logoSrc}
+    alt="SUConsulting"
+    class={variant === "symbol" ? "suc-logo__symbol" : "suc-logo__horizontal"}
+    loading="eager"
+    decoding="async"
+  />
+</div>

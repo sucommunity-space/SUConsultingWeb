@@ -1,0 +1,71 @@
+---
+import { site } from "../../../data/site";
+import IconBox from "../../ui/IconBox.astro";
+import GlyphIcon from "../../ui/GlyphIcon.astro";
+
+const channels = [
+  {
+    title: "Agenda",
+    description: "Reserva una reunion estrategica si ya tienes claro el siguiente paso.",
+    href: "/agendar-cita",
+    cta: "Agendar ahora",
+    accent: "magenta" as const,
+    icon: "calendar" as const
+  },
+  {
+    title: "Correo",
+    description: "Escribenos si prefieres explicar tu caso antes de coordinar una sesion.",
+    href: `mailto:${site.email}`,
+    cta: "Enviar correo",
+    accent: "blue" as const,
+    icon: "mail" as const
+  },
+  {
+    title: "WhatsApp",
+    description: "Un canal directo para consultas iniciales y coordinaciones mas rapidas.",
+    href: "https://wa.me/51987654321",
+    cta: "Abrir WhatsApp",
+    accent: "green" as const,
+    icon: "whatsapp" as const
+  },
+  {
+    title: "Oficina",
+    description: "Informacion institucional para quienes necesitan contacto empresarial formal.",
+    href: "/contacto#mapa",
+    cta: "Ver ubicacion",
+    accent: "orange" as const,
+    icon: "map" as const
+  }
+];
+---
+
+<div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+  {channels.map((item, index) => (
+    <a
+      href={item.href}
+      class:list={[
+        "card card--premium card-premium group block rounded-[1.6rem] p-5",
+        "reveal",
+        index === 1 && "reveal-delay-1",
+        index === 2 && "reveal-delay-2",
+        index === 3 && "reveal-delay-3"
+      ]}
+      target={item.href.startsWith("http") ? "_blank" : undefined}
+      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+    >
+      <IconBox accent={item.accent}>
+        <GlyphIcon name={item.icon} />
+      </IconBox>
+      <h3 class="mt-5 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+        {item.title}
+      </h3>
+      <p class="mt-3 text-[15px] leading-7 text-[var(--ink-2)]">
+        {item.description}
+      </p>
+      <span class="mt-5 inline-flex items-center gap-2 text-sm font-black text-[var(--brand-navy)] transition-transform duration-300 group-hover:translate-x-1">
+        {item.cta}
+        <span aria-hidden="true">-&gt;</span>
+      </span>
+    </a>
+  ))}
+</div>

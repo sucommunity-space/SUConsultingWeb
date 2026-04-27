@@ -1,0 +1,63 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import IconBox from "../../ui/IconBox.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import GlyphIcon from "../../ui/GlyphIcon.astro";
+
+const values = [
+  {
+    title: "Servicio",
+    description: "Respondemos con disposicion real de ayuda, escucha y acompanamiento responsable.",
+    accent: "magenta" as const,
+    icon: "service" as const
+  },
+  {
+    title: "Fe",
+    description: "Nuestra base espiritual orienta el modo en que servimos y construimos relaciones.",
+    accent: "blue" as const,
+    icon: "faith" as const
+  },
+  {
+    title: "Disciplina",
+    description: "Orden, consistencia y seguimiento forman parte de la experiencia que entregamos.",
+    accent: "green" as const,
+    icon: "discipline" as const
+  },
+  {
+    title: "Union",
+    description: "Creemos en el trabajo colaborativo, la red y la construccion de largo plazo.",
+    accent: "orange" as const,
+    icon: "union" as const
+  }
+];
+---
+
+<section class="section-space-sm bg-white">
+  <Container>
+    <SectionTitle
+      eyebrow="Valores institucionales"
+      title="La base humana y profesional que sostiene nuestro trabajo"
+      description="Cada relacion consultiva se construye sobre principios que ordenan la forma de escuchar, proponer y acompanar."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      {values.map((value, index) => (
+        <Card variant="premium" class:list={["card-premium h-full p-7", "reveal", index === 1 && "reveal-delay-1", index === 2 && "reveal-delay-2", index === 3 && "reveal-delay-3"]}>
+          <IconBox accent={value.accent} size="lg">
+            <GlyphIcon name={value.icon} />
+          </IconBox>
+
+          <h3 class="mt-5 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+            {value.title}
+          </h3>
+
+          <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+            {value.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,69 @@
+---
+import Container from "../../ui/Container.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import ServiceCard from "./ServiceCard.astro";
+import { services } from "../../../data/services";
+import { serviceImages } from "../../../data/media";
+
+const accents = ["magenta", "blue", "green", "orange"] as const;
+
+const extraServices = [
+  {
+    title: "Soluciones tecnologicas para responsabilidad social corporativa",
+    description: "Acompanamos iniciativas que conectan tecnologia, seguimiento y gestion responsable con impacto medible.",
+    benefits: [
+      "Orden para programas de impacto",
+      "Lectura de indicadores sociales",
+      "Soporte digital para la ejecucion"
+    ]
+  },
+  {
+    title: "Soluciones de compensacion financiera y no financiera",
+    description: "Disenamos rutas para reconocer, retener y fortalecer el rendimiento desde un enfoque mas integral.",
+    benefits: [
+      "Propuestas alineadas a cultura",
+      "Mejor experiencia de equipo",
+      "Mayor claridad en incentivos"
+    ]
+  }
+];
+
+const mappedServices = services.map((service, index) => ({
+  title: service.title,
+  description: service.fullDescription,
+  benefits: service.benefits,
+  image: serviceImages[index % serviceImages.length],
+  featured: Boolean(service.featured)
+}));
+
+const catalog = [...mappedServices, ...extraServices.map((service, index) => ({
+  ...service,
+  image: serviceImages[(mappedServices.length + index) % serviceImages.length],
+  featured: false
+}))];
+---
+
+<section class="section-space" id="servicios-grid">
+  <Container>
+    <SectionTitle
+      eyebrow="Portafolio de servicios"
+      title="Soluciones empresariales para crecer con mas estructura y control"
+      description="Disenamos acompanamiento consultivo para emprendedores, PYMES, empresas familiares y organizaciones que necesitan estrategia, orden financiero y capacidad de ejecucion."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      {catalog.map((service, index) => (
+        <ServiceCard
+          title={service.title}
+          description={service.description}
+          benefits={service.benefits}
+          image={service.image}
+          order={String(index + 1).padStart(2, "0")}
+          accent={accents[index % accents.length]}
+          featured={index < 2 || service.featured}
+        />
+      ))}
+    </div>
+  </Container>
+</section>

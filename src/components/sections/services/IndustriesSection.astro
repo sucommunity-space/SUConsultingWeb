@@ -1,0 +1,55 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+
+const industries = [
+  {
+    title: "Emprendedores",
+    description: "Negocios en etapa de definicion que necesitan aterrizar modelo, plan y prioridades."
+  },
+  {
+    title: "PYMES",
+    description: "Empresas que requieren mayor control, mejor lectura financiera y orden en su crecimiento."
+  },
+  {
+    title: "Empresas familiares",
+    description: "Organizaciones que buscan continuidad, estructura y mejor alineacion entre negocio y familia."
+  },
+  {
+    title: "Organizaciones en crecimiento",
+    description: "Equipos que necesitan fortalecer cultura, procesos, seguimiento y capacidad de ejecucion."
+  },
+  {
+    title: "Negocios que necesitan estructura",
+    description: "Casos donde la oportunidad existe, pero hace falta claridad para sostenerla con metodo."
+  }
+];
+---
+
+<section class="section-space-sm">
+  <Container>
+    <SectionTitle
+      eyebrow="A quien acompanamos"
+      title="Sectores y etapas donde aportamos mas valor"
+      description="Trabajamos con organizaciones que necesitan combinar ambicion con estructura y decisiones mejor fundamentadas."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+      {industries.map((item, index) => (
+        <Card variant="outline" class:list={["card-premium h-full rounded-[1.6rem] p-6", "reveal", index > 0 && `reveal-delay-${Math.min(index, 3)}`]}>
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-blue)]">
+            {String(index + 1).padStart(2, "0")}
+          </p>
+          <h3 class="mt-4 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+            {item.title}
+          </h3>
+          <p class="mt-3 text-[15px] leading-7 text-[var(--ink-2)]">
+            {item.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

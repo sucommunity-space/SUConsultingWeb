@@ -1,0 +1,72 @@
+---
+import { site } from "../../../data/site";
+import IconBox from "../../ui/IconBox.astro";
+import GlyphIcon from "../../ui/GlyphIcon.astro";
+
+const infoItems = [
+  {
+    label: "Correo",
+    value: site.email || "contacto@suconsulting.pe",
+    href: `mailto:${site.email || "contacto@suconsulting.pe"}`,
+    accent: "blue" as const,
+    icon: "mail" as const
+  },
+  {
+    label: "Telefono",
+    value: site.phone || "+51 987 654 321",
+    href: `tel:${(site.phone || "+51 987 654 321").replace(/\s+/g, "")}`,
+    accent: "green" as const,
+    icon: "phone" as const
+  },
+  {
+    label: "Horario",
+    value: "Lunes a viernes · 9:00 a. m. a 6:00 p. m.",
+    accent: "orange" as const,
+    icon: "clock" as const
+  },
+  {
+    label: "Atencion empresarial",
+    value: "Respuesta clara para emprendedores, PYMES y organizaciones en crecimiento.",
+    accent: "magenta" as const,
+    icon: "briefcase" as const
+  }
+];
+---
+
+<div>
+  <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-blue)]">
+    Informacion directa
+  </p>
+
+  <h2 class="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--brand-navy)] md:text-4xl">
+    Canales de contacto claros y listos para accion
+  </h2>
+
+  <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+    Este bloque refuerza confianza y da al usuario varias maneras de acercarse segun su preferencia.
+  </p>
+
+  <div class="mt-8 space-y-4">
+    {infoItems.map((item, index) => (
+      <div class:list={["rounded-[1.4rem] border border-[rgba(5,27,63,0.08)] bg-white px-5 py-5", "reveal", index > 0 && `reveal-delay-${Math.min(index, 3)}`]}>
+        <div class="flex items-start gap-4">
+          <IconBox accent={item.accent}>
+            <GlyphIcon name={item.icon} />
+          </IconBox>
+          <div class="min-w-0">
+            <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-blue)]">
+              {item.label}
+            </p>
+            {item.href ? (
+              <a href={item.href} class="mt-2 block max-w-full text-[15px] font-bold leading-7 text-[var(--brand-navy)] hover:opacity-80">
+                {item.value}
+              </a>
+            ) : (
+              <p class="mt-2 text-[15px] leading-7 text-[var(--ink-2)]">{item.value}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

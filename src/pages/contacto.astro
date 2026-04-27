@@ -1,187 +1,74 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Container from '../components/ui/Container.astro';
-import Card from '../components/ui/Card.astro';
-import Button from '../components/ui/Button.astro';
-import SectionTitle from '../components/ui/SectionTitle.astro';
-import PageHeader from '../components/layout/PageHeader.astro';
-import { site } from '../data/site';
-
-const siteData = site as {
-  email?: string;
-  phone?: string;
-  address?: string;
-};
-
-const faqs = [
-  {
-    q: '¿Cuánto tarda la respuesta?',
-    a: 'El tiempo de respuesta dependerá del volumen de solicitudes, pero el objetivo es atender cada contacto con orden y claridad.'
-  },
-  {
-    q: '¿Puedo escribir antes de agendar?',
-    a: 'Sí. Puedes utilizar este formulario para comentar tu necesidad y recibir orientación inicial.'
-  },
-  {
-    q: '¿Cómo manejan la información enviada?',
-    a: 'La información compartida debe tratarse con responsabilidad y solo para fines de contacto y orientación profesional.'
-  }
-];
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/layout/PageHeader.astro";
+import Container from "../components/ui/Container.astro";
+import Card from "../components/ui/Card.astro";
+import CTABox from "../components/ui/CTABox.astro";
+import ContactChannels from "../components/sections/contact/ContactChannels.astro";
+import ContactFormSection from "../components/sections/contact/ContactFormSection.astro";
+import ContactInfoSection from "../components/sections/contact/ContactInfoSection.astro";
+import MapSection from "../components/sections/contact/MapSection.astro";
+import { pageImages } from "../data/media";
 ---
+
 <BaseLayout
-  title="Contacto"
-  description="Contacta a SUConsulting para orientación, información o agendamiento."
+  title="Contacto | SUConsulting"
+  description="Contacta con SUConsulting de forma profesional, clara y confiable."
 >
   <PageHeader
-    eyebrow="Contacto"
-    title="Hablemos del siguiente paso para su organización"
-    description="Si deseas recibir orientación, solicitar información o coordinar una reunión, puedes escribirnos mediante este formulario."
-    primaryCtaLabel="Agendar cita"
+    eyebrow="Contacto empresarial"
+    title="Conversemos sobre el crecimiento y la siguiente decision de tu empresa."
+    description="Si quieres explorar un servicio, agendar una reunion o compartir el contexto de tu organizacion, este es el punto de partida mas claro."
+    image={pageImages.contact}
+    imageAlt="Sala de reuniones corporativa"
+    highlights={[
+      "Canales directos para agenda, correo y coordinacion.",
+      "Formulario premium con experiencia clara y confiable.",
+      "Atencion orientada a empresarios y organizaciones en crecimiento."
+    ]}
     primaryCtaHref="/agendar-cita"
-    secondaryCtaLabel="Ver servicios"
+    primaryCtaLabel="Agendar cita"
     secondaryCtaHref="/servicios"
+    secondaryCtaLabel="Ver servicios"
   />
 
-  <section class="section-shell">
+  <section class="section-space-sm">
     <Container>
-      <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card>
-          <div class="space-y-6">
-            <div>
-              <span class="inline-flex rounded-full bg-[#346BB3]/8 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#346BB3]">
-                Envío de solicitud
-              </span>
-              <h2 class="mt-4 text-3xl font-extrabold tracking-tight text-[#051B3F]">
-                Cuéntanos cómo podemos ayudarte
-              </h2>
-              <p class="mt-4 leading-8 text-slate-600">
-                Esta versión deja listo el diseño del formulario. Después conectamos el envío real con PHP + Cloudflare Turnstile.
-              </p>
-            </div>
-
-            <form class="grid gap-5">
-              <div class="grid gap-5 md:grid-cols-2">
-                <label class="grid gap-2">
-                  <span class="text-sm font-bold text-[#051B3F]">Nombres y apellidos</span>
-                  <input
-                    type="text"
-                    class="rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#346BB3]"
-                    placeholder="Tu nombre completo"
-                  />
-                </label>
-
-                <label class="grid gap-2">
-                  <span class="text-sm font-bold text-[#051B3F]">Correo electrónico</span>
-                  <input
-                    type="email"
-                    class="rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#346BB3]"
-                    placeholder="correo@empresa.com"
-                  />
-                </label>
-              </div>
-
-              <div class="grid gap-5 md:grid-cols-2">
-                <label class="grid gap-2">
-                  <span class="text-sm font-bold text-[#051B3F]">Teléfono</span>
-                  <input
-                    type="text"
-                    class="rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#346BB3]"
-                    placeholder="+51 999 999 999"
-                  />
-                </label>
-
-                <label class="grid gap-2">
-                  <span class="text-sm font-bold text-[#051B3F]">Servicio de interés</span>
-                  <select class="rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#346BB3]">
-                    <option>Selecciona una opción</option>
-                    <option>Gestión comercial, contabilidad y finanzas</option>
-                    <option>Planes de negocio</option>
-                    <option>Continuidad de negocio</option>
-                    <option>Sistemas de gestión ISO</option>
-                    <option>Soluciones tecnológicas</option>
-                  </select>
-                </label>
-              </div>
-
-              <label class="grid gap-2">
-                <span class="text-sm font-bold text-[#051B3F]">Mensaje</span>
-                <textarea
-                  rows="6"
-                  class="rounded-3xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#346BB3]"
-                  placeholder="Describe brevemente tu necesidad, situación o consulta."
-                ></textarea>
-              </label>
-
-              <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm text-slate-500">
-                Espacio reservado para Cloudflare Turnstile.
-              </div>
-
-              <div>
-                <Button type="submit" size="lg">
-                  Enviar solicitud de contacto
-                </Button>
-              </div>
-            </form>
-          </div>
-        </Card>
-
-        <div class="grid gap-6">
-          <Card>
-            <h3 class="text-2xl font-extrabold text-[#051B3F]">Información de contacto</h3>
-            <div class="mt-5 space-y-4 leading-7 text-slate-600">
-              {siteData.email && <p><strong class="text-[#051B3F]">Correo:</strong> {siteData.email}</p>}
-              {siteData.phone && <p><strong class="text-[#051B3F]">Teléfono:</strong> {siteData.phone}</p>}
-              {siteData.address && <p><strong class="text-[#051B3F]">Dirección:</strong> {siteData.address}</p>}
-              <p><strong class="text-[#051B3F]">Horario:</strong> Lun - Vie · 09:00 a 18:00</p>
-            </div>
-          </Card>
-
-          <Card class="surface-dark">
-            <div class="space-y-4">
-              <p class="text-sm font-bold uppercase tracking-[0.16em] text-white/70">
-                Bloque de confianza
-              </p>
-              <h3 class="text-2xl font-extrabold text-white">
-                También puedes coordinar una reunión directa
-              </h3>
-              <p class="leading-8 text-white/78">
-                Si tu necesidad requiere una conversación más inmediata, dirígete a la página de agendamiento y selecciona el horario disponible.
-              </p>
-              <div class="pt-2">
-                <Button href="/agendar-cita" class="bg-white text-[#051B3F] hover:bg-white/95">
-                  Agendar cita ahora
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </div>
+      <ContactChannels />
     </Container>
   </section>
 
-  <section class="section-shell bg-slate-50/70">
-    <Container class="space-y-10">
-      <SectionTitle
-        eyebrow="Preguntas frecuentes"
-        title="Antes de escribirnos"
-        description="Estas respuestas pueden ayudarte a entender mejor el canal de contacto."
-        align="center"
-      />
+  <section class="section-space">
+    <Container class="grid gap-8 lg:grid-cols-[0.6fr_0.4fr]">
+      <Card variant="premium" class="card-premium rounded-[2rem] p-6 md:p-8">
+        <ContactFormSection />
+      </Card>
 
-      <div class="mx-auto max-w-4xl space-y-4">
-        {
-          faqs.map((item) => (
-            <details class="surface-card overflow-hidden">
-              <summary class="cursor-pointer px-6 py-5 text-left text-lg font-bold text-[#051B3F]">
-                {item.q}
-              </summary>
-              <div class="border-t border-slate-200 px-6 py-5 leading-7 text-slate-600">
-                {item.a}
-              </div>
-            </details>
-          ))
-        }
-      </div>
+      <Card variant="soft" class="rounded-[2rem] p-6 md:p-8">
+        <ContactInfoSection />
+      </Card>
+    </Container>
+  </section>
+
+  <section class="section-space-sm" id="mapa">
+    <Container>
+      <Card variant="premium" class="card-premium overflow-hidden rounded-[2rem] p-0">
+        <MapSection />
+      </Card>
+    </Container>
+  </section>
+
+  <section class="section-space-sm">
+    <Container>
+      <CTABox
+        eyebrow="Otra via de contacto"
+        title="Si prefieres una conversacion directa, agenda una reunion y avanzamos con mayor claridad."
+        description="Podemos revisar tu caso, ordenar prioridades y ayudarte a decidir cual es el siguiente paso mas adecuado para tu organizacion."
+        primaryCtaHref="/agendar-cita"
+        primaryCtaLabel="Agendar una reunion"
+        secondaryCtaHref="/privacidad"
+        secondaryCtaLabel="Ver politica de privacidad"
+      />
     </Container>
   </section>
 </BaseLayout>

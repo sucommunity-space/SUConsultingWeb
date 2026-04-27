@@ -1,0 +1,99 @@
+---
+import Container from "../../ui/Container.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import Button from "../../ui/Button.astro";
+import Card from "../../ui/Card.astro";
+import { services } from "../../../data/services";
+
+type ServiceLike = {
+  title?: string;
+  name?: string;
+  description?: string;
+  summary?: string;
+  excerpt?: string;
+};
+
+const featured = ((Array.isArray(services) ? services : []) as ServiceLike[]).slice(0, 4);
+
+const getTitle = (item: ServiceLike) =>
+  item.title || item.name || "Servicio estratégico";
+
+const getDescription = (item: ServiceLike) =>
+  item.description ||
+  item.summary ||
+  item.excerpt ||
+  "Acompañamiento empresarial orientado a resultados medibles y decisiones más sólidas.";
+
+const getAccent = (index: number) => {
+  const accents = [
+    "var(--brand-magenta)",
+    "var(--brand-green)",
+    "var(--brand-blue)",
+    "var(--brand-orange)"
+  ];
+
+  return accents[index % accents.length];
+};
+
+const getIcon = (index: number) => {
+  const icons = ["✦", "◉", "△", "✳"];
+  return icons[index % icons.length];
+};
+---
+
+<section class="home-services section-space" aria-labelledby="home-services-title">
+  <Container>
+    <div class="home-services__head">
+      <SectionTitle
+        eyebrow="Servicios destacados"
+        title="Soluciones para impulsar tu organización"
+        description="Diseñamos acompañamiento estratégico con una estructura clara, lenguaje profesional y foco real en impacto empresarial."
+      />
+
+      <div class="home-services__action">
+        <Button href="/servicios" variant="ghost" effect="liquid">
+          Ver todos los servicios
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+    </div>
+
+    <div class="home-services__grid">
+      {featured.map((item, index) => {
+        const titleId = `service-preview-title-${index + 1}`;
+
+        return (
+          <Card
+            variant={index === 0 ? "feature" : "soft"}
+            class="service-preview-card group"
+            style={`--card-accent:${getAccent(index)}`}
+          >
+            <article aria-labelledby={titleId}>
+              <div class="service-preview-card__icon">
+                {getIcon(index)}
+              </div>
+
+              <div class="service-preview-card__meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>SUConsulting</span>
+              </div>
+
+              <h3 id={titleId} class="service-preview-card__title">
+                {getTitle(item)}
+              </h3>
+
+              <p class="service-preview-card__text">
+                {getDescription(item)}
+              </p>
+
+              <a href="/servicios" class="service-preview-card__link">
+                Saber más
+                <span aria-hidden="true">→</span>
+              </a>
+            </article>
+          </Card>
+        );
+      })}
+    </div>
+  </Container>
+</section>

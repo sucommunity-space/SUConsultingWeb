@@ -1,0 +1,90 @@
+---
+import Button from "../../ui/Button.astro";
+import Logo from "../../ui/Logo.astro";
+import BrandOrnaments from "../../ui/BrandOrnaments.astro";
+
+const slides = [
+  {
+    src: "/images/carousel/carousel-01-strategy.webp",
+    alt: "Estrategia empresarial en una mesa de trabajo"
+  },
+  {
+    src: "/images/carousel/carousel-02-finance.webp",
+    alt: "Analisis financiero y orden empresarial"
+  },
+  {
+    src: "/images/carousel/carousel-03-business-growth.webp",
+    alt: "Crecimiento y acompanamiento empresarial"
+  },
+  {
+    src: "/images/carousel/carousel-04-consulting-team.webp",
+    alt: "Equipo consultivo de trabajo"
+  },
+  {
+    src: "/images/carousel/carousel-05-technology-solutions.webp",
+    alt: "Soluciones tecnologicas para empresas"
+  }
+];
+---
+
+<section class="suc-hero" aria-label="Portada principal de SUConsulting">
+  <div class="suc-hero__slider" aria-hidden="true">
+    {slides.map((slide) => (
+      <div class="suc-hero__slide">
+        <img src={slide.src} alt={slide.alt} loading="eager" decoding="async" />
+      </div>
+    ))}
+  </div>
+
+  <div class="suc-hero__veil" aria-hidden="true"></div>
+  <div class="suc-hero__grid-pattern" aria-hidden="true"></div>
+  <BrandOrnaments class="suc-page-ornaments--hero" />
+
+  <div class="suc-hero__inner">
+    <div class="suc-hero__content">
+      <span class="suc-hero__eyebrow">
+        Consultoria con proposito
+      </span>
+
+      <h1 class="suc-hero__title" aria-label="Empresa. Fe. Crecimiento.">
+        <span class="suc-hero__title-line">Empresa.</span>
+        <span class="suc-hero__title-line suc-hero__title-line--accent">Fe.</span>
+        <span class="suc-hero__title-line">Crecimiento.</span>
+      </h1>
+
+      <p class="suc-hero__lead">
+        Acompanamos a lideres, emprendedores y organizaciones a crecer con estrategia,
+        integridad y proposito, construyendo empresas mas solidas, sostenibles y humanas.
+      </p>
+
+      <div class="suc-hero__actions">
+        <Button href="/agendar-cita" variant="light" effect="liquid">
+          Agendar una reunion
+          <span aria-hidden="true">-></span>
+        </Button>
+
+        <Button href="/servicios" variant="outline-light" effect="liquid">
+          Conoce nuestros servicios
+        </Button>
+      </div>
+
+      <div class="suc-hero__signature">
+        <span aria-hidden="true"></span>
+        Estrategia que transforma. Valores que permanecen.
+      </div>
+
+      <div class="suc-hero__mobile-media">
+        <div
+          class="suc-hero__mobile-photo"
+          role="img"
+          aria-label="Consultores reunidos en una oficina ejecutiva moderna"
+        ></div>
+        <div class="suc-hero__mobile-overlay"></div>
+        <div class="suc-hero__mobile-stamp">
+          <span>Consultoria empresarial</span>
+          <Logo tone="light" class="suc-hero__mobile-logo" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

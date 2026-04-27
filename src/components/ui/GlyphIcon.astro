@@ -1,0 +1,172 @@
+---
+interface Props {
+  name:
+    | "mission"
+    | "vision"
+    | "service"
+    | "faith"
+    | "discipline"
+    | "union"
+    | "mail"
+    | "phone"
+    | "clock"
+    | "briefcase"
+    | "calendar"
+    | "globe"
+    | "check"
+    | "refresh"
+    | "shield"
+    | "whatsapp"
+    | "map"
+    | "support";
+  class?: string;
+}
+
+const {
+  name,
+  class: className = ""
+} = Astro.props;
+---
+
+{name === "mission" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="7"></circle>
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M12 2v3"></path>
+    <path d="M12 19v3"></path>
+    <path d="M2 12h3"></path>
+    <path d="M19 12h3"></path>
+  </svg>
+)}
+
+{name === "vision" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"></path>
+    <circle cx="12" cy="12" r="2.7"></circle>
+  </svg>
+)}
+
+{name === "service" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 13.5c1.3 0 2.1.6 2.9 1.4l1 1c.5.5 1 .8 1.7.8H13c1.1 0 2-.9 2-2 0-.9-.6-1.7-1.5-1.9l-2.2-.6"></path>
+    <path d="M4 11.5 8 9l3 2 3-2 6 4.2"></path>
+    <path d="M2.5 12.5v6h4.2l1.6 1.4c.7.6 1.6 1 2.6 1H17c1 0 1.9-.4 2.6-1.1l1.9-1.9"></path>
+  </svg>
+)}
+
+{name === "faith" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 4v16"></path>
+    <path d="M7 9h10"></path>
+    <path d="M8 20c1.1-1 2.4-1.5 4-1.5S14.9 19 16 20"></path>
+  </svg>
+)}
+
+{name === "discipline" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3 6 5.4V11c0 4.1 2.5 7.8 6 9 3.5-1.2 6-4.9 6-9V5.4L12 3Z"></path>
+    <path d="m9.5 11.8 1.7 1.7 3.4-3.8"></path>
+  </svg>
+)}
+
+{name === "union" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6" cy="12" r="2.5"></circle>
+    <circle cx="18" cy="7" r="2.5"></circle>
+    <circle cx="18" cy="17" r="2.5"></circle>
+    <path d="M8.3 10.9 15.7 8.1"></path>
+    <path d="m8.3 13.1 7.4 2.8"></path>
+  </svg>
+)}
+
+{name === "mail" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+    <path d="m4 7 8 6 8-6"></path>
+  </svg>
+)}
+
+{name === "phone" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 3.2 2 2 0 0 1 4 1h2a2 2 0 0 1 2 1.7l.4 2.8a2 2 0 0 1-.6 1.8L6 9a16 16 0 0 0 9 9l1.7-1.8a2 2 0 0 1 1.8-.6l2.8.4A2 2 0 0 1 22 16.9Z"></path>
+  </svg>
+)}
+
+{name === "clock" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="8"></circle>
+    <path d="M12 7v5l3 2"></path>
+  </svg>
+)}
+
+{name === "briefcase" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="7" width="18" height="12" rx="2"></rect>
+    <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+    <path d="M3 12h18"></path>
+  </svg>
+)}
+
+{name === "calendar" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+    <path d="M16 3v4"></path>
+    <path d="M8 3v4"></path>
+    <path d="M3 10h18"></path>
+  </svg>
+)}
+
+{name === "globe" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="8"></circle>
+    <path d="M4 12h16"></path>
+    <path d="M12 4a13 13 0 0 1 0 16"></path>
+    <path d="M12 4a13 13 0 0 0 0 16"></path>
+  </svg>
+)}
+
+{name === "check" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="8"></circle>
+    <path d="m8.6 12 2.2 2.2 4.6-4.8"></path>
+  </svg>
+)}
+
+{name === "refresh" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 6v5h-5"></path>
+    <path d="M4 18v-5h5"></path>
+    <path d="M6.6 9A7 7 0 0 1 18 6l2 2"></path>
+    <path d="M17.4 15A7 7 0 0 1 6 18l-2-2"></path>
+  </svg>
+)}
+
+{name === "shield" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3 6 5.4V11c0 4.1 2.5 7.8 6 9 3.5-1.2 6-4.9 6-9V5.4L12 3Z"></path>
+    <path d="m9 12 2 2 4-4"></path>
+  </svg>
+)}
+
+{name === "whatsapp" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 11.5A8 8 0 0 1 8 18.5L4 20l1.5-3.8A8 8 0 1 1 20 11.5Z"></path>
+    <path d="M9.3 8.8c.2-.4.4-.4.7-.4h.6c.2 0 .4 0 .5.4l.6 1.5c.1.3 0 .5-.2.7l-.5.6c.5 1 1.3 1.8 2.3 2.3l.6-.5c.2-.2.4-.2.7-.1l1.5.6c.3.1.4.3.4.5v.6c0 .3 0 .5-.4.7-.4.2-1 .3-1.7.1-1-.3-2-.8-2.9-1.7-.9-.9-1.5-1.9-1.8-2.9-.2-.7-.1-1.3.1-1.7Z"></path>
+  </svg>
+)}
+
+{name === "map" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 21s6-5.6 6-11a6 6 0 1 0-12 0c0 5.4 6 11 6 11Z"></path>
+    <circle cx="12" cy="10" r="2.3"></circle>
+  </svg>
+)}
+
+{name === "support" && (
+  <svg viewBox="0 0 24 24" class={className} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 14v-2a7 7 0 1 1 14 0v2"></path>
+    <path d="M5 14a2 2 0 0 0 0 4h1.5"></path>
+    <path d="M19 14a2 2 0 0 1 0 4h-1.5"></path>
+    <path d="M9 18c.6.7 1.6 1 3 1s2.4-.3 3-1"></path>
+  </svg>
+)}

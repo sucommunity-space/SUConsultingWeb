@@ -1,0 +1,58 @@
+---
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+
+const points = [
+  "Criterio estratégico para decisiones importantes.",
+  "Acompañamiento humano y profesional.",
+  "Experiencia orientada a resultados medibles."
+];
+---
+
+<section class="professionals-preview section-space">
+  <Container>
+    <div class="professionals-preview__box">
+      <div class="professionals-preview__content">
+        <span class="eyebrow">Nuestro equipo</span>
+
+        <h2 class="section-title">
+          Profesionales preparados para acompañar tu crecimiento.
+        </h2>
+
+        <p class="lead">
+          Reunimos facilitadores, consultores y perfiles estratégicos capaces de orientar
+          procesos empresariales con estructura, visión y responsabilidad.
+        </p>
+
+        <ul class="professionals-preview__list">
+          {points.map((point) => (
+            <li>
+              <span></span>
+              {point}
+            </li>
+          ))}
+        </ul>
+
+        <Button href="/profesionales" effect="liquid">
+          Conoce a los profesionales
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+
+      <div class="professionals-preview__visual">
+        <div class="professionals-preview__photo">
+          <img
+            src="/images/pages/home-hero-consulting.webp"
+            alt="Equipo profesional en reunión estratégica"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="professionals-preview__stat">
+          <strong>Visión</strong>
+          <p>Estrategia, propósito y acompañamiento empresarial.</p>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

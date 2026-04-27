@@ -1,0 +1,166 @@
+---
+interface Props {
+  enabled?: boolean;
+}
+
+const { enabled = true } = Astro.props;
+---
+
+{enabled && (
+  <>
+    <div class="preload" aria-hidden="true" data-site-preloader>
+      <div class="preloadanimation"></div>
+      <div class="preload__logo" data-preload-logo></div>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const PRELOADER_COMPLETE_EVENT = "su:preloader-complete";
+        const DRAW_MAIN_DELAY_MS = 80;
+        const DRAW_ACCENT_DELAY_MS = 320;
+        const DRAW_ALL_DELAY_MS = 520;
+        const FILL_DELAY_MS = 1800;
+        const OPEN_DELAY_MS = 2800;
+        const OPEN_DURATION_MS = 1000;
+
+        const root = document.querySelector("[data-site-preloader]");
+        const logoHost = document.querySelector("[data-preload-logo]");
+
+        const finishPreloader = () => {
+          document.documentElement.classList.remove("preloader-active");
+          document.documentElement.classList.add("preloader-complete");
+          document.body.classList.add("preloader-complete");
+          window.dispatchEvent(new CustomEvent(PRELOADER_COMPLETE_EVENT));
+
+          window.setTimeout(() => {
+            root?.remove();
+          }, 140);
+        };
+
+        if (!(root instanceof HTMLElement) || !(logoHost instanceof HTMLElement)) {
+          finishPreloader();
+          return;
+        }
+
+        const buildAnnotatedSvg = (rawSvg) => {
+          const parser = new DOMParser();
+          const documentSvg = parser.parseFromString(rawSvg, "image/svg+xml");
+          const svg = documentSvg.querySelector("svg");
+
+          if (!svg) return "";
+
+          const viewBox =
+            svg.getAttribute("viewBox") ||
+            `0 0 ${svg.getAttribute("width") || "1600"} ${svg.getAttribute("height") || "1582"}`;
+
+          const group = svg.querySelector("g");
+          const groupTransform = group?.getAttribute("transform");
+          const paths = [...svg.querySelectorAll("path")].filter((path) => {
+            const d = path.getAttribute("d");
+            return typeof d === "string" && d.trim().length > 0;
+          });
+
+          if (!paths.length) return "";
+
+          const pathsMarkup = paths
+            .map((path, index) => {
+              const d = path.getAttribute("d") || "";
+              const transform = path.getAttribute("transform");
+              const pathId = index < 2 ? "letrasMP" : "letrasC";
+              const attributes = [`id="${pathId}"`, `class="pathFillletter"`];
+
+              if (transform) {
+                attributes.push(`transform="${transform}"`);
+              }
+
+              return `<path ${attributes.join(" ")} d="${d}" />`;
+            })
+            .join("");
+
+          const groupOpen = groupTransform ? `<g transform="${groupTransform}">` : "";
+          const groupClose = groupTransform ? "</g>" : "";
+
+          return [
+            `<svg id="letrasMP" class="pathFill" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">`,
+            groupOpen,
+            pathsMarkup,
+            groupClose,
+            "</svg>"
+          ].join("");
+        };
+
+        const loadSvg = async () => {
+          try {
+            const response = await fetch("/suc-preload.svg");
+
+            if (!response.ok) {
+              throw new Error(`No se pudo cargar suc-preload.svg: ${response.status}`);
+            }
+
+            const rawSvg = await response.text();
+            const svgMarkup = buildAnnotatedSvg(rawSvg);
+
+            if (!svgMarkup) {
+              finishPreloader();
+              return;
+            }
+
+            logoHost.innerHTML = svgMarkup;
+            animatePreloader();
+          } catch {
+            finishPreloader();
+          }
+        };
+
+        const animatePreloader = () => {
+          const svg = logoHost.querySelector("svg");
+          const mainPaths = [...logoHost.querySelectorAll('path#letrasMP')];
+          const accentPaths = [...logoHost.querySelectorAll('path#letrasC')];
+          const allPaths = [...logoHost.querySelectorAll(".pathFillletter")];
+
+          if (!(svg instanceof SVGElement) || !allPaths.length) {
+            finishPreloader();
+            return;
+          }
+
+          const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+          if (reduceMotion) {
+            allPaths.forEach((path) => path.classList.add("active", "activeback"));
+            root.classList.add("active");
+            window.setTimeout(finishPreloader, 40);
+            return;
+          }
+
+          window.setTimeout(() => {
+            mainPaths.forEach((path) => path.classList.add("active"));
+          }, DRAW_MAIN_DELAY_MS);
+
+          window.setTimeout(() => {
+            accentPaths.forEach((path) => path.classList.add("active"));
+          }, DRAW_ACCENT_DELAY_MS);
+
+          window.setTimeout(() => {
+            allPaths.forEach((path) => path.classList.add("active"));
+          }, DRAW_ALL_DELAY_MS);
+
+          window.setTimeout(() => {
+            mainPaths.forEach((path) => path.classList.add("activeback"));
+            accentPaths.forEach((path) => path.classList.add("activeback"));
+            allPaths.forEach((path) => path.classList.add("activeback"));
+          }, FILL_DELAY_MS);
+
+          window.setTimeout(() => {
+            root.classList.add("active");
+          }, OPEN_DELAY_MS);
+
+          window.setTimeout(() => {
+            finishPreloader();
+          }, OPEN_DELAY_MS + OPEN_DURATION_MS);
+        };
+
+        loadSvg();
+      })();
+    </script>
+  </>
+)}

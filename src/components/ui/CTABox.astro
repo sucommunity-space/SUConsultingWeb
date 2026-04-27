@@ -1,0 +1,59 @@
+---
+import Card from "./Card.astro";
+import Button from "./Button.astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  primaryCtaHref?: string;
+  primaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  tone?: "light" | "dark";
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  primaryCtaHref,
+  primaryCtaLabel,
+  secondaryCtaHref,
+  secondaryCtaLabel,
+  tone = "light",
+  class: className = ""
+} = Astro.props;
+---
+
+<Card
+  variant={tone === "dark" ? "dark" : "premium"}
+  class:list={["cta-box", `cta-box--${tone}`, className]}
+>
+  <div class="cta-box__copy">
+    {eyebrow && <p class="cta-box__eyebrow">{eyebrow}</p>}
+    <h2 class="cta-box__title">{title}</h2>
+    {description && <p class="cta-box__description">{description}</p>}
+  </div>
+
+  {(primaryCtaHref || secondaryCtaHref) && (
+    <div class="cta-box__actions">
+      {primaryCtaHref && primaryCtaLabel && (
+        <Button href={primaryCtaHref} size="lg">
+          {primaryCtaLabel}
+        </Button>
+      )}
+
+      {secondaryCtaHref && secondaryCtaLabel && (
+        <Button
+          href={secondaryCtaHref}
+          size="lg"
+          variant={tone === "dark" ? "outline-light" : "secondary"}
+        >
+          {secondaryCtaLabel}
+        </Button>
+      )}
+    </div>
+  )}
+</Card>

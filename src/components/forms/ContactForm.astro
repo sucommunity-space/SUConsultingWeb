@@ -1,0 +1,292 @@
+---
+import Button from "../ui/Button.astro";
+import * as servicesModule from "../../data/services";
+
+interface Props {
+  action?: string;
+  class?: string;
+}
+
+const {
+  action = "/backend/api/contact.php",
+  class: className = ""
+} = Astro.props;
+
+type GenericRecord = Record<string, unknown>;
+const moduleRecord = servicesModule as Record<string, unknown>;
+
+const findArray = (): GenericRecord[] => {
+  if (Array.isArray(moduleRecord.default)) return moduleRecord.default as GenericRecord[];
+
+  for (const value of Object.values(moduleRecord)) {
+    if (Array.isArray(value)) return value as GenericRecord[];
+  }
+
+  return [];
+};
+
+const rawServices = findArray();
+
+const getText = (value: unknown, fallback = "") =>
+  typeof value === "string" ? value : fallback;
+
+const serviceOptions = rawServices.map((item, index) => ({
+  label:
+    getText(item.title) ||
+    getText(item.name) ||
+    `Servicio ${index + 1}`,
+  value:
+    (
+      getText(item.slug) ||
+      getText(item.title) ||
+      getText(item.name) ||
+      `servicio-${index + 1}`
+    )
+      .toLowerCase()
+      .replaceAll(" ", "-")
+}));
+
+const options = serviceOptions.length
+  ? serviceOptions
+  : [
+      { label: "Estrategia empresarial", value: "estrategia-empresarial" },
+      { label: "Desarrollo organizacional", value: "desarrollo-organizacional" },
+      { label: "Finanzas y sostenibilidad", value: "finanzas-y-sostenibilidad" },
+      { label: "Innovacion y transformacion", value: "innovacion-y-transformacion" }
+    ];
+---
+
+<form
+  action={action}
+  method="POST"
+  class:list={["space-y-6", className]}
+  data-contact-form
+  novalidate
+>
+  <input
+    type="text"
+    name="website"
+    tabindex="-1"
+    autocomplete="off"
+    class="hidden"
+    aria-hidden="true"
+  />
+
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <label class="field-label" for="name">Nombre completo *</label>
+      <input
+        class="field-control"
+        id="name"
+        name="name"
+        type="text"
+        placeholder="Ej. Carlos Ramirez"
+        required
+        minlength="3"
+      />
+    </div>
+
+    <div>
+      <label class="field-label" for="email">Correo corporativo *</label>
+      <input
+        class="field-control"
+        id="email"
+        name="email"
+        type="email"
+        placeholder="Ej. carlos@empresa.com"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <label class="field-label" for="company">Empresa *</label>
+      <input
+        class="field-control"
+        id="company"
+        name="company"
+        type="text"
+        placeholder="Ej. SUC Corporation"
+        required
+        minlength="2"
+      />
+    </div>
+
+    <div>
+      <label class="field-label" for="phone">Telefono *</label>
+      <input
+        class="field-control"
+        id="phone"
+        name="phone"
+        type="tel"
+        placeholder="Ej. +51 987 654 321"
+        required
+        minlength="6"
+      />
+    </div>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <label class="field-label" for="service">Servicio de interes</label>
+      <select
+        class="field-control"
+        id="service"
+        name="service"
+      >
+        <option value="">Selecciona una opcion</option>
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </div>
+
+    <div>
+      <label class="field-label" for="subject">Asunto *</label>
+      <input
+        class="field-control"
+        id="subject"
+        name="subject"
+        type="text"
+        placeholder="Ej. Diagnostico estrategico"
+        required
+        minlength="3"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label class="field-label" for="message">Mensaje *</label>
+    <textarea
+      class="field-control min-h-[180px] resize-y"
+      id="message"
+      name="message"
+      placeholder="Cuentanos brevemente como podemos ayudarte"
+      required
+      minlength="10"
+    ></textarea>
+  </div>
+
+  <div class="rounded-[1.3rem] border border-[rgba(5,27,63,0.08)] bg-[rgba(5,27,63,0.03)] px-4 py-4">
+    <p class="text-sm font-black text-[var(--brand-navy)]">Recepcion profesional</p>
+    <p class="mt-2 text-[14px] leading-7 text-[var(--ink-2)]">
+      Validamos campos, aplicamos honeypot y ordenamos el envio para mantener un canal serio y util.
+    </p>
+  </div>
+
+  <label class="flex items-start gap-3 rounded-[1.2rem] border border-[rgba(5,27,63,0.08)] bg-[rgba(5,27,63,0.02)] px-4 py-4">
+    <input
+      type="checkbox"
+      name="privacy"
+      value="accepted"
+      class="mt-1 h-4 w-4 rounded border-[rgba(5,27,63,0.20)]"
+      required
+    />
+    <span class="text-[14px] leading-7 text-[var(--ink-2)]">
+      Acepto la <a href="/privacidad" class="font-black text-[var(--brand-magenta)]">Politica de Privacidad</a> y el tratamiento de mis datos personales.
+    </span>
+  </label>
+
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="text-sm text-[var(--ink-2)]">
+      Tu informacion sera tratada con criterio profesional y uso responsable.
+    </div>
+
+    <Button type="submit" size="lg">
+      Enviar mensaje
+    </Button>
+  </div>
+
+  <div
+    class="hidden rounded-[1rem] border border-[rgba(113,175,46,0.20)] bg-[rgba(113,175,46,0.08)] px-4 py-3 text-sm font-bold text-[var(--brand-green)]"
+    data-form-success
+    aria-live="polite"
+  >
+    Tu mensaje fue enviado correctamente.
+  </div>
+
+  <div
+    class="hidden rounded-[1rem] border border-[rgba(225,86,121,0.20)] bg-[rgba(225,86,121,0.08)] px-4 py-3 text-sm font-bold text-[var(--brand-magenta)] whitespace-pre-line"
+    data-form-error
+    aria-live="polite"
+  >
+    Ocurrio un problema al enviar el formulario. Intentalo de nuevo.
+  </div>
+</form>
+
+<script>
+  document.querySelectorAll("[data-contact-form]").forEach((formElement) => {
+    const form = formElement as HTMLFormElement;
+    const successBox = form.querySelector("[data-form-success]") as HTMLDivElement | null;
+    const errorBox = form.querySelector("[data-form-error]") as HTMLDivElement | null;
+
+    if (!successBox || !errorBox) return;
+
+    const getErrorMessage = (result: unknown) => {
+      if (!result || typeof result !== "object") return "Ocurrio un problema al enviar el formulario.";
+
+      const payload = result as {
+        message?: string;
+        errors?: string[] | Record<string, string>;
+      };
+
+      if (payload.errors) {
+        if (Array.isArray(payload.errors)) return payload.errors.join("\n");
+
+        const messages = Object.values(payload.errors).filter(
+          (value): value is string => typeof value === "string" && value.length > 0
+        );
+
+        if (messages.length) return messages.join("\n");
+      }
+
+      return payload.message || "Ocurrio un problema al enviar el formulario.";
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      successBox.classList.add("hidden");
+      errorBox.classList.add("hidden");
+
+      if (!form.reportValidity()) return;
+
+      const submitter = form.querySelector('button[type="submit"], a[type="submit"]') as HTMLElement | null;
+      submitter?.setAttribute("aria-busy", "true");
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method || "POST",
+          body: new FormData(form)
+        });
+
+        const raw = await response.text();
+        let ok = response.ok;
+        let message = "Solicitud procesada correctamente.";
+
+        try {
+          const result = JSON.parse(raw) as { success?: boolean; message?: string; errors?: unknown };
+          if (typeof result.success === "boolean") ok = result.success;
+          message = ok ? (result.message || message) : getErrorMessage(result);
+        } catch {
+          if (raw) message = raw;
+        }
+
+        if (ok) {
+          successBox.textContent = message;
+          successBox.classList.remove("hidden");
+          form.reset();
+        } else {
+          errorBox.textContent = message;
+          errorBox.classList.remove("hidden");
+        }
+      } catch {
+        errorBox.textContent = "Ocurrio un problema al enviar el formulario. Intentalo de nuevo.";
+        errorBox.classList.remove("hidden");
+      } finally {
+        submitter?.removeAttribute("aria-busy");
+      }
+    });
+  });
+</script>

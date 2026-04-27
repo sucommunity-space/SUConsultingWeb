@@ -1,57 +1,191 @@
 ---
-import '../styles/global.css';
-import Navbar from '../components/layout/Navbar.astro';
-import Footer from '../components/layout/Footer.astro';
-import { site } from '../data/site';
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import SitePreloader from "../components/interactive/SitePreloader.astro";
+import "../styles/global.css";
 
 interface Props {
-    title?: string;
-    description?: string;
-    noindex?: boolean;
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+  bodyClass?: string;
+  mainClass?: string;
 }
 
-const { title, description, noindex = false } = Astro.props;
+const isHomePage = Astro.url.pathname === "/";
 
-const siteData = site as {
-    name: string;
-    url?: string;
-    description?: string;
-};
-
-const pageTitle = title ? `${title} | ${siteData.name}` : siteData.name;
-const pageDescription = description ?? siteData.description ?? 'Web institucional de SUConsulting';
-const canonical = new URL(Astro.url.pathname, siteData.url ?? 'https://example.com').toString();
+const {
+  title = "SUConsulting",
+  description = "Consultoria empresarial con proposito.",
+  noindex = false,
+  hideNavbar = false,
+  hideFooter = false,
+  bodyClass = "",
+  mainClass = ""
+} = Astro.props;
 ---
+
 <!doctype html>
 <html lang="es">
-    <head>
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+  <head>
     <meta charset="UTF-8" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={pageDescription} />
-    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <title>{title}</title>
+
+    <link rel="icon" type="image/x-icon" href="/suc-icon.ico" />
+    <link rel="shortcut icon" href="/suc-icon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/suc.svg" />
+    <link rel="apple-touch-icon" href="/suc-icon.ico" />
+    <meta name="theme-color" content="#051b3f" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Anton&family=Space+Mono:wght@400;700&display=swap"
-    rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
     />
-    <meta name="theme-color" content="#051B3F" />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={pageDescription} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <slot name="head" />
-    </head>
 
-<body class="min-h-screen bg-white text-slate-900">
-    <Navbar />
-    <main>
-    <slot />
-    </main>
-    <Footer />
-</body>
+    <script is:inline define:vars={{ isHomePage }}>
+      (() => {
+        document.documentElement.classList.add("has-js");
 
+        if (isHomePage) {
+          document.documentElement.classList.add("preloader-active");
+          document.documentElement.classList.remove("preloader-complete");
+        } else {
+          document.documentElement.classList.remove("preloader-active");
+          document.documentElement.classList.add("preloader-complete");
+        }
+      })();
+    </script>
+  </head>
+
+  <body class={bodyClass}>
+    <SitePreloader enabled={isHomePage} />
+
+    <div class="site-shell">
+      {!hideNavbar && <Navbar />}
+
+      <main class={mainClass}>
+        <slot />
+      </main>
+
+      {!hideFooter && <Footer />}
+    </div>
+
+    <script is:inline>
+      (() => {
+        const injectSectionOrnaments = () => {
+          const ornamentMarkup = `
+            <svg class="suc-page-ornament suc-page-ornament--plus" viewBox="0 0 120 120" fill="none">
+              <path d="M50 18H70V50H102V70H70V102H50V70H18V50H50V18Z" stroke="currentColor" stroke-width="10" stroke-linejoin="round"></path>
+            </svg>
+            <svg class="suc-page-ornament suc-page-ornament--triangle" viewBox="0 0 120 120" fill="none">
+              <path d="M60 20L100 92H20L60 20Z" stroke="currentColor" stroke-width="10" stroke-linejoin="round"></path>
+            </svg>
+            <svg class="suc-page-ornament suc-page-ornament--circle" viewBox="0 0 120 120" fill="none">
+              <circle cx="60" cy="60" r="36" stroke="currentColor" stroke-width="10"></circle>
+            </svg>
+            <svg class="suc-page-ornament suc-page-ornament--square" viewBox="0 0 120 120" fill="none">
+              <rect x="24" y="24" width="72" height="72" rx="8" stroke="currentColor" stroke-width="10"></rect>
+            </svg>
+          `;
+
+          document.querySelectorAll("main > section").forEach((section) => {
+            if (!(section instanceof HTMLElement)) return;
+            if (section.classList.contains("suc-hero")) return;
+            if (section.classList.contains("internal-hero")) return;
+
+            const hasDirectOrnaments = Array.from(section.children).some(
+              (child) => child instanceof HTMLElement && child.classList.contains("suc-page-ornaments")
+            );
+
+            if (hasDirectOrnaments) {
+              section.classList.add("suc-section-ornamented");
+              return;
+            }
+
+            const ornaments = document.createElement("div");
+            ornaments.className = "suc-page-ornaments suc-page-ornaments--auto";
+            ornaments.setAttribute("aria-hidden", "true");
+            ornaments.innerHTML = ornamentMarkup;
+
+            section.classList.add("suc-section-ornamented");
+            section.prepend(ornaments);
+          });
+        };
+
+        const initScrollBuild = () => {
+          const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          const isMobile = window.matchMedia("(max-width: 767px)").matches;
+          const targets = [];
+
+          document
+            .querySelectorAll("main > section")
+            .forEach((section) => {
+              if (section.classList.contains("suc-hero")) return;
+              if (section.querySelector(".reveal")) return;
+
+              section.classList.add("scroll-reveal-section");
+              targets.push(section);
+            });
+
+          document
+            .querySelectorAll(".reveal, .floating-cta")
+            .forEach((element) => targets.push(element));
+
+          const uniqueTargets = [...new Set(targets)];
+
+          if (!uniqueTargets.length) return;
+
+          uniqueTargets.forEach((target) => target.classList.add("scroll-reveal-ready"));
+
+          if (reduceMotion || !("IntersectionObserver" in window)) {
+            uniqueTargets.forEach((target) => target.classList.add("is-visible"));
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              });
+            },
+            {
+              threshold: isMobile ? 0.04 : 0.16,
+              rootMargin: isMobile ? "0px 0px -2% 0px" : "0px 0px -10% 0px"
+            }
+          );
+
+          uniqueTargets.forEach((target) => observer.observe(target));
+        };
+
+        const startWhenReady = () => {
+          injectSectionOrnaments();
+
+          if (document.documentElement.classList.contains("preloader-complete")) {
+            initScrollBuild();
+            return;
+          }
+
+          window.addEventListener("su:preloader-complete", initScrollBuild, { once: true });
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", startWhenReady, { once: true });
+          return;
+        }
+
+        startWhenReady();
+      })();
+    </script>
+  </body>
 </html>

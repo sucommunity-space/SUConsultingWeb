@@ -1,82 +1,110 @@
 ---
-import Container from '../ui/Container.astro';
-import Button from '../ui/Button.astro';
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import Logo from "../ui/Logo.astro";
+import BrandOrnaments from "../ui/BrandOrnaments.astro";
 
 interface Props {
   eyebrow?: string;
   title: string;
   description?: string;
-  align?: 'left' | 'center';
-  primaryCtaLabel?: string;
+  image?: string;
+  imageAlt?: string;
+  highlights?: string[];
   primaryCtaHref?: string;
-  secondaryCtaLabel?: string;
+  primaryCtaLabel?: string;
   secondaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  variant?: "internal" | "minimal";
 }
 
 const {
   eyebrow,
   title,
   description,
-  align = 'left',
-  primaryCtaLabel,
+  image,
+  imageAlt = "Imagen institucional",
+  highlights = [],
   primaryCtaHref,
+  primaryCtaLabel,
+  secondaryCtaHref,
   secondaryCtaLabel,
-  secondaryCtaHref
+  variant = "internal"
 } = Astro.props;
 
-const alignMap = {
-  left: 'items-start text-left',
-  center: 'items-center text-center'
-};
+const hasImage = variant !== "minimal" && Boolean(image);
 ---
-<section class="relative overflow-hidden border-b border-slate-200/70 bg-white">
-  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(52,107,179,0.10),transparent_24%),radial-gradient(circle_at_bottom_left,rgba(197,71,147,0.06),transparent_18%)]"></div>
 
-  <Container class="relative py-16 md:py-20 lg:py-24">
-    <div class={`flex max-w-4xl flex-col gap-6 ${alignMap[align]}`}>
-      {
-        eyebrow && (
-          <span class="badge-ui">
-            {eyebrow}
-          </span>
-        )
-      }
-
-      <div class="space-y-4">
-        <h1 class="text-balance text-4xl font-extrabold tracking-tight text-[#051B3F] md:text-5xl lg:text-6xl">
-          {title}
-        </h1>
-
-        {
-          description && (
-            <p class="text-balance max-w-3xl text-base leading-8 text-slate-600 md:text-lg">
-              {description}
-            </p>
-          )
-        }
+<section class:list={["internal-hero", `internal-hero--${variant}`, !hasImage && "internal-hero--no-media"]}>
+  {variant === "internal" && (
+    <>
+      <div class="internal-hero__backdrop" aria-hidden="true">
+        {image && <img src={image} alt="" class="internal-hero__bg-image" loading="eager" decoding="async" />}
       </div>
+      <div class="internal-hero__grid-pattern" aria-hidden="true"></div>
+      <BrandOrnaments />
+    </>
+  )}
 
-      {
-        (primaryCtaLabel || secondaryCtaLabel) && (
-          <div class="flex flex-col gap-4 sm:flex-row">
-            {
-              primaryCtaLabel && primaryCtaHref && (
-                <Button href={primaryCtaHref} size="lg">
-                  {primaryCtaLabel}
-                </Button>
-              )
-            }
+  <Container class="internal-hero__inner">
+    <div class="internal-hero__content reveal">
+      {eyebrow && <span class="eyebrow internal-hero__eyebrow">{eyebrow}</span>}
 
-            {
-              secondaryCtaLabel && secondaryCtaHref && (
-                <Button href={secondaryCtaHref} variant="secondary" size="lg">
-                  {secondaryCtaLabel}
-                </Button>
-              )
-            }
-          </div>
-        )
-      }
+      <h1 class="internal-hero__title">{title}</h1>
+
+      {description && <p class="internal-hero__lead">{description}</p>}
+
+      {(primaryCtaHref || secondaryCtaHref) && (
+        <div class="internal-hero__actions reveal reveal-delay-1">
+          {primaryCtaHref && primaryCtaLabel && (
+            <Button href={primaryCtaHref} size="lg" variant={variant === "internal" ? "light" : "primary"}>
+              {primaryCtaLabel}
+            </Button>
+          )}
+
+          {secondaryCtaHref && secondaryCtaLabel && (
+            <Button href={secondaryCtaHref} size="lg" variant={variant === "internal" ? "outline-light" : "secondary"}>
+              {secondaryCtaLabel}
+            </Button>
+          )}
+        </div>
+      )}
+
+      {highlights.length > 0 && (
+        <ul class="internal-hero__highlights reveal reveal-delay-2">
+          {highlights.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      )}
+
+      {variant === "internal" && (
+        <div class="internal-hero__signature reveal reveal-delay-2">
+          <span aria-hidden="true"></span>
+          Estrategia que transforma. Valores que permanecen.
+        </div>
+      )}
     </div>
+
+    {hasImage && (
+      <div class="internal-hero__visual reveal reveal-delay-1">
+        <div class="internal-hero__media image-premium">
+          <img
+            src={image}
+            alt={imageAlt}
+            class="internal-hero__image"
+            loading="eager"
+            decoding="async"
+          />
+
+          <div class="internal-hero__media-overlay"></div>
+
+          <div class="internal-hero__stamp">
+            <span>Consultoria empresarial</span>
+            <Logo tone="light" class="internal-hero__stamp-logo" />
+          </div>
+        </div>
+      </div>
+    )}
   </Container>
 </section>

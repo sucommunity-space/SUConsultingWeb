@@ -1,0 +1,19 @@
+---
+interface Props {
+  accent?: "navy" | "blue" | "green" | "orange" | "magenta";
+  size?: "md" | "lg";
+  value?: string;
+  class?: string;
+}
+
+const {
+  accent = "blue",
+  size = "md",
+  value = "+",
+  class: className = ""
+} = Astro.props;
+---
+
+<div class:list={["icon-box", `icon-box--${accent}`, `icon-box--${size}`, className]} aria-hidden="true">
+  <slot>{value}</slot>
+</div>

@@ -1,0 +1,52 @@
+---
+import Container from "../../ui/Container.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import ProfessionalCard from "./ProfessionalCard.astro";
+import { professionals } from "../../../data/professionals";
+import { professionalImages } from "../../../data/media";
+
+const accents = ["magenta", "blue", "green", "orange", "blue"] as const;
+
+const mapped = professionals.map((person, index) => ({
+  name: person.name,
+  role: person.role,
+  bio: person.bio,
+  tags: person.specialties.slice(0, 3),
+  image: professionalImages[index % professionalImages.length]
+}));
+
+const catalog = [
+  ...mapped,
+  {
+    name: "Red consultiva asociada",
+    role: "Especialistas aliados",
+    bio: "Complementamos cada proyecto con perfiles asociados cuando el contexto necesita experiencia sectorial, tecnica o funcional adicional.",
+    tags: ["Especialidad", "Alianzas", "Complemento"],
+    image: professionalImages[4]
+  }
+];
+---
+
+<section class="section-space">
+  <Container>
+    <SectionTitle
+      eyebrow="Equipo consultivo"
+      title="Perfiles preparados para acompanar decisiones importantes"
+      description="Cada profesional aporta criterio, experiencia aplicada y una forma de trabajo pensada para escuchar, diagnosticar y proponer con seriedad."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {catalog.map((person, index) => (
+        <ProfessionalCard
+          name={person.name}
+          role={person.role}
+          bio={person.bio}
+          tags={person.tags}
+          image={person.image}
+          accent={accents[index % accents.length]}
+        />
+      ))}
+    </div>
+  </Container>
+</section>

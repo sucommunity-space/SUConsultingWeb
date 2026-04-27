@@ -1,0 +1,76 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import Button from "../../ui/Button.astro";
+
+const differentiators = [
+  {
+    title: "Comunidad",
+    description: "Nos apoyamos en una red de servicio y colaboracion que entiende los procesos empresariales desde lo humano."
+  },
+  {
+    title: "Innovacion",
+    description: "Buscamos soluciones realistas, aplicables y capaces de mejorar resultados sin perder claridad."
+  },
+  {
+    title: "Tecnologia",
+    description: "Integramos herramientas y criterio digital cuando fortalecen la gestion y la toma de decisiones."
+  },
+  {
+    title: "Diversificacion",
+    description: "Aportamos mirada amplia para emprendedores, PYMES, familias empresarias y organizaciones en evolucion."
+  },
+  {
+    title: "Acompanamiento empresarial",
+    description: "No entregamos solo diagnosticos: acompanamos la ruta para que la estrategia se convierta en avance sostenido."
+  }
+];
+---
+
+<section class="section-space">
+  <Container>
+    <div class="grid gap-6 xl:grid-cols-[0.42fr_0.58fr]">
+      <Card variant="dark" class="rounded-[2rem] p-7 md:p-9 suc-pattern">
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-white/66">
+          Por que elegirnos
+        </p>
+        <h2 class="mt-4 text-4xl font-black leading-none tracking-[-0.06em] text-white md:text-5xl">
+          Estrategia seria, cercania humana y vision con fundamento.
+        </h2>
+        <p class="mt-5 text-[15px] leading-8 text-white/76">
+          SUConsulting busca verse y actuar como una consultora institucional premium:
+          sobria, confiable, moderna y coherente con el tipo de acompanamiento que promete.
+        </p>
+
+        <div class="mt-8">
+          <Button href="/agendar-cita" size="lg">Agendar una reunion</Button>
+        </div>
+      </Card>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        {differentiators.map((item, index) => (
+          <Card
+            variant="premium"
+            class:list={[
+              "card-premium h-full rounded-[1.6rem] p-6",
+              "reveal",
+              index === 1 && "reveal-delay-1",
+              index === 2 && "reveal-delay-2",
+              index === 3 && "reveal-delay-3"
+            ]}
+          >
+            <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-blue)]">
+              {String(index + 1).padStart(2, "0")}
+            </p>
+            <h3 class="mt-4 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+              {item.title}
+            </h3>
+            <p class="mt-3 text-[15px] leading-7 text-[var(--ink-2)]">
+              {item.description}
+            </p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </Container>
+</section>

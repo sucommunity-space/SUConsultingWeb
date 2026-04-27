@@ -1,0 +1,58 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import IconBox from "../../ui/IconBox.astro";
+
+const steps = [
+  {
+    number: "01",
+    title: "Elige horario",
+    description: "Selecciona la fecha y hora que mejor se adapten a tu disponibilidad real.",
+    accent: "magenta" as const
+  },
+  {
+    number: "02",
+    title: "Completa tus datos",
+    description: "Ingresa informacion clara para que la coordinacion sea simple y profesional.",
+    accent: "blue" as const
+  },
+  {
+    number: "03",
+    title: "Recibe confirmacion",
+    description: "Te compartimos la reserva para que tengas claridad antes de la conversacion.",
+    accent: "green" as const
+  },
+  {
+    number: "04",
+    title: "Preparate para el diagnostico",
+    description: "Llega con una idea general de tu reto, objetivo o necesidad principal.",
+    accent: "orange" as const
+  }
+];
+---
+
+<section class="section-space-sm">
+  <Container>
+    <SectionTitle
+      eyebrow="Paso a paso"
+      title="Una reserva bien guiada reduce friccion y mejora la conversacion"
+      description="El proceso esta pensado para que el usuario entienda con rapidez que debe hacer y que puede esperar de la reunion."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      {steps.map((step, index) => (
+        <Card variant="premium" class:list={["card-premium relative h-full rounded-[1.7rem] p-6", "reveal", index > 0 && `reveal-delay-${Math.min(index, 3)}`]}>
+          <IconBox accent={step.accent} size="lg" value={step.number} />
+          <h3 class="mt-5 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+            {step.title}
+          </h3>
+          <p class="mt-3 text-[15px] leading-7 text-[var(--ink-2)]">
+            {step.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

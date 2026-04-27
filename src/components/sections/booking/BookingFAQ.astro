@@ -1,0 +1,41 @@
+---
+import Card from "../../ui/Card.astro";
+import FAQAccordion from "../../interactive/FAQAccordion.astro";
+
+const items = [
+  {
+    question: "Cuanto dura la reunion inicial?",
+    answer: "La conversacion inicial suele durar cerca de 45 minutos. Ese tiempo permite entender el contexto, revisar la necesidad principal y orientar el siguiente paso con mayor claridad."
+  },
+  {
+    question: "Que informacion conviene tener antes de reservar?",
+    answer: "Lo ideal es tener claro el tipo de empresa, el reto prioritario, el objetivo de la reunion y los datos de contacto de quien participara."
+  },
+  {
+    question: "Puedo reprogramar si surge un cambio?",
+    answer: "Si, pero es recomendable hacerlo con anticipacion para mantener una coordinacion profesional y liberar el espacio reservado."
+  },
+  {
+    question: "Que ocurre despues de la reunion?",
+    answer: "Dependiendo del caso, podremos sugerirte una siguiente conversacion, una ruta de trabajo o el servicio mas adecuado para tu necesidad."
+  }
+];
+---
+
+<Card variant="soft" class="rounded-[2rem] p-6 md:p-8">
+  <div class="max-w-3xl">
+    <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-magenta)]">
+      Preguntas frecuentes
+    </p>
+    <h2 class="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--brand-navy)] md:text-4xl">
+      Respuestas para reservar con mayor confianza
+    </h2>
+    <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+      Esta seccion ayuda a resolver dudas practicas antes de que el usuario confirme su espacio.
+    </p>
+  </div>
+
+  <div class="mt-8">
+    <FAQAccordion items={items} />
+  </div>
+</Card>

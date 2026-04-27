@@ -1,0 +1,58 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import IconBox from "../../ui/IconBox.astro";
+
+const process = [
+  {
+    title: "Diagnostico",
+    description: "Leemos el contexto del negocio, la urgencia real y los puntos criticos que requieren orden o decisiones mas claras.",
+    accent: "magenta" as const,
+    mark: "01"
+  },
+  {
+    title: "Estrategia",
+    description: "Convertimos el diagnostico en una hoja de ruta concreta, con prioridades, foco y viabilidad para la organizacion.",
+    accent: "blue" as const,
+    mark: "02"
+  },
+  {
+    title: "Implementacion",
+    description: "Aterrizamos la propuesta con acompanamiento, criterios de ejecucion y soporte sobre decisiones clave.",
+    accent: "green" as const,
+    mark: "03"
+  },
+  {
+    title: "Seguimiento",
+    description: "Medimos avances, ajustamos lo necesario y sostenemos la mejora para que el trabajo no se quede solo en presentaciones.",
+    accent: "orange" as const,
+    mark: "04"
+  }
+];
+---
+
+<section class="section-space-sm bg-white">
+  <Container>
+    <SectionTitle
+      eyebrow="Metodo de trabajo"
+      title="Un proceso claro para aterrizar estrategia y ejecucion"
+      description="Nuestro enfoque combina analisis, orden y acompanamiento para que cada recomendacion tenga sentido en el negocio real."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      {process.map((step, index) => (
+        <Card variant="premium" class:list={["card-premium h-full p-7", "reveal", index === 1 && "reveal-delay-1", index === 2 && "reveal-delay-2", index === 3 && "reveal-delay-3"]}>
+          <IconBox accent={step.accent} size="lg" value={step.mark} />
+          <h3 class="mt-5 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+            {step.title}
+          </h3>
+          <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+            {step.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

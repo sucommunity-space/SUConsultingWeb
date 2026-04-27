@@ -1,0 +1,49 @@
+---
+import Container from "../../ui/Container.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+
+const values = [
+  {
+    number: "01",
+    title: "Servicio",
+    text: "Acompañamos con disposición real, criterio profesional y compromiso con cada organización."
+  },
+  {
+    number: "02",
+    title: "Fe",
+    text: "Creemos en una forma de emprender y liderar guiada por principios, esperanza e integridad."
+  },
+  {
+    number: "03",
+    title: "Disciplina",
+    text: "Convertimos la visión en procesos, decisiones medibles y ejecución constante."
+  },
+  {
+    number: "04",
+    title: "Unión",
+    text: "Promovemos comunidad, colaboración y relaciones empresariales sostenibles."
+  }
+];
+---
+
+<section class="values-section section-space-sm">
+  <Container>
+    <div class="values-section__head">
+      <SectionTitle
+        eyebrow="Nuestros valores"
+        title="Principios que guían nuestra forma de acompañar."
+        description="Cada proyecto se desarrolla con una mirada estratégica, humana y coherente con los valores de SUConsulting."
+      />
+    </div>
+
+    <div class="values-section__grid">
+      {values.map((value) => (
+        <article class="value-card">
+          <span>{value.number}</span>
+          <h3>{value.title}</h3>
+          <p>{value.text}</p>
+        </article>
+      ))}
+    </div>
+  </Container>
+</section>

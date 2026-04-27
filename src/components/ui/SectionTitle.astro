@@ -3,42 +3,42 @@ interface Props {
   eyebrow?: string;
   title: string;
   description?: string;
-  align?: 'left' | 'center';
+  align?: "left" | "center";
   class?: string;
+  titleClass?: string;
+  [key: string]: any;
 }
 
 const {
   eyebrow,
   title,
   description,
-  align = 'left',
-  class: className = ''
+  align = "left",
+  class: className = "",
+  titleClass = "",
+  ...attrs
 } = Astro.props;
 
-const alignMap = {
-  left: 'text-left items-start',
-  center: 'text-center items-center'
-};
+const isCenter = align === "center";
 ---
-<div class={`flex flex-col gap-4 ${alignMap[align]} ${className}`}>
-  {
-    eyebrow && (
-      <span class="badge-ui">
-        {eyebrow}
-      </span>
-    )
-  }
 
-  <div class="max-w-3xl space-y-3">
-    <h2 class="text-balance text-3xl font-extrabold tracking-tight text-[#051B3F] md:text-4xl lg:text-5xl">
-      {title}
-    </h2>
-    {
-      description && (
-        <p class="text-balance text-base leading-8 text-slate-600 md:text-lg">
-          {description}
-        </p>
-      )
-    }
-  </div>
+<div
+  {...attrs}
+  class:list={[
+    "section-title-block",
+    isCenter ? "section-title-block--center" : "",
+    className
+  ]}
+>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+
+  <h2 class={`section-title ${titleClass}`}>
+    {title}
+  </h2>
+
+  {description && (
+    <p class="lead">
+      {description}
+    </p>
+  )}
 </div>

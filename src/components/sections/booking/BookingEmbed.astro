@@ -1,0 +1,132 @@
+---
+import Card from "../../ui/Card.astro";
+import Button from "../../ui/Button.astro";
+import IconBox from "../../ui/IconBox.astro";
+import GlyphIcon from "../../ui/GlyphIcon.astro";
+import BookingForm from "../../forms/BookingForm.astro";
+import * as bookingModule from "../../../data/booking";
+
+type GenericRecord = Record<string, unknown>;
+const moduleRecord = bookingModule as Record<string, unknown>;
+
+const objectSources = Object.values(moduleRecord).filter(
+  (value): value is GenericRecord =>
+    typeof value === "object" && value !== null && !Array.isArray(value)
+);
+
+const findString = (keys: string[], fallback = ""): string => {
+  for (const key of keys) {
+    const direct = moduleRecord[key];
+    if (typeof direct === "string") return direct;
+  }
+
+  for (const source of objectSources) {
+    for (const key of keys) {
+      const value = source[key];
+      if (typeof value === "string") return value;
+    }
+  }
+
+  return fallback;
+};
+
+const calendarButtonUrl = findString(
+  ["calendarButtonUrl", "appointmentUrl", "calendarUrl"],
+  ""
+);
+
+const note = findString(
+  ["note", "description", "intro"],
+  "Selecciona tu horario, completa tu informacion y llega con una necesidad empresarial ya identificada."
+);
+---
+
+<Card variant="premium" class="overflow-hidden rounded-[2rem] p-0">
+  <div class="grid xl:grid-cols-[0.66fr_0.34fr]">
+    <div class="border-b border-[rgba(5,27,63,0.08)] p-4 md:p-5 xl:border-b-0 xl:border-r">
+      <div class="rounded-[1.7rem] border border-[rgba(5,27,63,0.08)] bg-[linear-gradient(180deg,#ffffff_0%,#f6f9fe_100%)] p-5 shadow-[0_18px_44px_rgba(5,27,63,0.08)] md:p-6">
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-blue)]">
+          Solicitud de agenda
+        </p>
+
+        <h2 class="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--brand-navy)]">
+          Reserva tu reunion estrategica desde aqui
+        </h2>
+
+        <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+          El formulario conecta con tu backend y con Apps Script para registrar la cita en Google Calendar cuando el horario este libre.
+        </p>
+
+        <div class="mt-6">
+          <BookingForm />
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-[linear-gradient(180deg,rgba(5,27,63,0.02),rgba(52,107,179,0.06))] p-6 md:p-7">
+      <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-magenta)]">
+        Reserva con confianza
+      </p>
+
+      <h2 class="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--brand-navy)]">
+        Una reunion pensada para orientar, no para perder tiempo.
+      </h2>
+
+      <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+        {note}
+      </p>
+
+      <div class="mt-7 space-y-4">
+        <div class="rounded-[1.3rem] border border-[rgba(5,27,63,0.08)] bg-white px-4 py-4">
+          <div class="flex items-start gap-4">
+            <IconBox accent="blue">
+              <GlyphIcon name="clock" />
+            </IconBox>
+            <div>
+              <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-blue)]">Duracion estimada</p>
+              <p class="mt-2 text-lg font-black text-[var(--brand-navy)]">60 minutos</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[1.3rem] border border-[rgba(5,27,63,0.08)] bg-white px-4 py-4">
+          <div class="flex items-start gap-4">
+            <IconBox accent="green">
+              <GlyphIcon name="globe" />
+            </IconBox>
+            <div>
+              <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-green)]">Zona horaria</p>
+              <p class="mt-2 text-lg font-black text-[var(--brand-navy)]">Lima, Peru (GMT-5)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[1.3rem] border border-[rgba(5,27,63,0.08)] bg-white px-4 py-4">
+          <div class="flex items-start gap-4">
+            <IconBox accent="orange">
+              <GlyphIcon name="check" />
+            </IconBox>
+            <div>
+              <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-orange)]">Antes de enviar</p>
+              <p class="mt-2 text-[15px] leading-7 text-[var(--ink-2)]">
+                Ten claro el reto principal, la fecha deseada y la informacion de quien participara en la reunion.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-7 space-y-3">
+        <Button href="/contacto" variant="secondary" full>
+          Prefiero escribir antes
+        </Button>
+
+        {calendarButtonUrl && (
+          <Button href={calendarButtonUrl} variant="ghost" full>
+            Abrir calendario externo
+          </Button>
+        )}
+      </div>
+    </div>
+  </div>
+</Card>

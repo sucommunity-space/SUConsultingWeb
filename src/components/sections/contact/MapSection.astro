@@ -1,0 +1,58 @@
+---
+import { site } from "../../../data/site";
+import Button from "../../ui/Button.astro";
+
+const mapEmbed = "";
+const mapLink = "https://maps.google.com";
+const address = site.address || "Lima, Peru";
+---
+
+<div class="grid gap-0 lg:grid-cols-[0.4fr_0.6fr]">
+  <div class="border-b border-[rgba(5,27,63,0.08)] p-7 lg:border-b-0 lg:border-r">
+    <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-magenta)]">
+      Ubicacion
+    </p>
+
+    <h2 class="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--brand-navy)] md:text-4xl">
+      Referencia institucional para reuniones y coordinacion
+    </h2>
+
+    <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+      El mapa funciona como apoyo util para visitas, reuniones o validacion de direccion. Debe sentirse limpio y facil de consultar.
+    </p>
+
+    <div class="mt-6 rounded-[1.3rem] border border-[rgba(5,27,63,0.08)] bg-white px-5 py-5">
+      <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-blue)]">Direccion</p>
+      <p class="mt-2 text-[15px] leading-7 text-[var(--ink-2)]">{address}</p>
+    </div>
+
+    <div class="mt-6">
+      <Button href={mapLink} target="_blank" rel="noopener noreferrer">
+        Ver en Google Maps
+      </Button>
+    </div>
+  </div>
+
+  <div class="min-h-[380px] bg-[linear-gradient(180deg,#eef3fb_0%,#dfe8f6_100%)]">
+    {mapEmbed ? (
+      <iframe
+        src={mapEmbed}
+        title="Mapa de ubicacion"
+        class="h-full min-h-[380px] w-full"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    ) : (
+      <div class="grid h-full min-h-[380px] place-items-center px-8 text-center">
+        <div>
+          <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-blue)]">
+            Mapa corporativo
+          </p>
+          <p class="mt-3 text-lg font-bold text-[var(--brand-navy)]">
+            Inserta aqui tu Google Maps embed final
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+</div>

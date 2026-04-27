@@ -1,0 +1,70 @@
+---
+import Card from "../../ui/Card.astro";
+import Button from "../../ui/Button.astro";
+
+interface Props {
+  name: string;
+  role: string;
+  bio: string;
+  tags: string[];
+  image: string;
+  accent?: "blue" | "green" | "orange" | "magenta";
+}
+
+const {
+  name,
+  role,
+  bio,
+  tags,
+  image,
+  accent = "blue"
+} = Astro.props;
+---
+
+<Card variant="premium" class="card-premium group h-full overflow-hidden rounded-[1.9rem] p-0">
+  <div class="relative overflow-hidden">
+    <img
+      src={image}
+      alt={name}
+      class="aspect-[4/4.5] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+    />
+    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,27,63,0.04),rgba(5,27,63,0.36))]"></div>
+    <div class="absolute bottom-5 left-5 rounded-full border border-white/16 bg-[rgba(5,27,63,0.72)] px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
+      {role}
+    </div>
+  </div>
+
+  <div class="p-6">
+    <p class:list={[
+      "text-xs font-black uppercase tracking-[0.16em]",
+      accent === "magenta" && "text-[var(--brand-magenta)]",
+      accent === "blue" && "text-[var(--brand-blue)]",
+      accent === "green" && "text-[var(--brand-green)]",
+      accent === "orange" && "text-[var(--brand-orange)]"
+    ]}>
+      Perfil consultivo
+    </p>
+
+    <h3 class="mt-3 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+      {name}
+    </h3>
+
+    <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+      {bio}
+    </p>
+
+    <div class="mt-5 flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <span class="rounded-full border border-[rgba(5,27,63,0.08)] bg-[rgba(5,27,63,0.03)] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.1em] text-[var(--brand-navy)]">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <div class="mt-7">
+      <Button href="/contacto" variant="secondary" full>
+        Conversar sobre este perfil
+      </Button>
+    </div>
+  </div>
+</Card>

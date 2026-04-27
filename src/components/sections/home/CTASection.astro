@@ -1,0 +1,30 @@
+---
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+---
+
+<section class="home-cta section-space-sm">
+  <Container>
+    <div class="home-cta__box">
+      <div class="home-cta__icon" aria-hidden="true">+</div>
+
+      <div class="home-cta__content">
+        <span>Impulsemos tu siguiente etapa</span>
+        <h2>
+          Hagamos crecer tu organización <strong>con propósito.</strong>
+        </h2>
+      </div>
+
+      <div class="home-cta__actions">
+        <Button href="/agendar-cita" effect="liquid">
+          Agendar una reunión
+          <span aria-hidden="true">→</span>
+        </Button>
+
+        <Button href="/contacto" variant="secondary" effect="liquid">
+          Contactar
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>

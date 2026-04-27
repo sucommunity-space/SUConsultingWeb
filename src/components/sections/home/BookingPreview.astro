@@ -1,0 +1,58 @@
+---
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+
+const steps = [
+  {
+    number: "01",
+    title: "Cuéntanos tu necesidad",
+    text: "Identificamos el contexto, los retos y el tipo de acompañamiento que buscas."
+  },
+  {
+    number: "02",
+    title: "Evaluamos el enfoque",
+    text: "Ordenamos la información para plantear una ruta inicial clara y profesional."
+  },
+  {
+    number: "03",
+    title: "Coordinamos la reunión",
+    text: "Agendamos una conversación estratégica para revisar oportunidades y próximos pasos."
+  }
+];
+---
+
+<section class="booking-preview section-space-sm">
+  <Container>
+    <div class="booking-preview__grid">
+      <div class="booking-preview__content">
+        <span class="eyebrow">Agenda una reunión</span>
+
+        <h2 class="section-title">
+          Conversemos sobre la siguiente etapa de tu organización.
+        </h2>
+
+        <p class="lead">
+          La reunión inicial nos permite entender tus desafíos y proponerte una forma
+          de acompañamiento estratégica, ordenada y realista.
+        </p>
+
+        <Button href="/agendar-cita" size="lg" effect="liquid">
+          Agendar una reunión
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+
+      <div class="booking-preview__steps">
+        {steps.map((step) => (
+          <article class="booking-step">
+            <span>{step.number}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </Container>
+</section>

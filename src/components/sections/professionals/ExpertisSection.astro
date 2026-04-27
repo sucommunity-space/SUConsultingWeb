@@ -1,0 +1,64 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import SectionTitle from "../../ui/SectionTitle.astro";
+import IconBox from "../../ui/IconBox.astro";
+
+const expertise = [
+  {
+    title: "Gestion empresarial",
+    description: "Orden, estructura y criterio para fortalecer decisiones y operaciones.",
+    accent: "blue" as const,
+    mark: "GE"
+  },
+  {
+    title: "Finanzas",
+    description: "Lectura de indicadores, control financiero y sostenibilidad del negocio.",
+    accent: "green" as const,
+    mark: "FI"
+  },
+  {
+    title: "Estrategia",
+    description: "Direccion, priorizacion y ruta clara para la siguiente etapa de crecimiento.",
+    accent: "magenta" as const,
+    mark: "ES"
+  },
+  {
+    title: "Tecnologia",
+    description: "Herramientas y soluciones empresariales alineadas a necesidades reales.",
+    accent: "orange" as const,
+    mark: "TE"
+  },
+  {
+    title: "Desarrollo organizacional",
+    description: "Cultura, roles y acompanamiento para procesos de evolucion empresarial.",
+    accent: "navy" as const,
+    mark: "DO"
+  }
+];
+---
+
+<section class="section-space-sm">
+  <Container>
+    <SectionTitle
+      eyebrow="Areas de expertise"
+      title="Un equipo preparado para decisiones que exigen criterio profesional"
+      description="Nuestra fortaleza esta en combinar experiencia consultiva, mirada humana y especialidades que dialogan entre si."
+      class="max-w-4xl"
+    />
+
+    <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+      {expertise.map((item, index) => (
+        <Card variant="premium" class:list={["card-premium h-full rounded-[1.6rem] p-6", "reveal", index > 0 && `reveal-delay-${Math.min(index, 3)}`]}>
+          <IconBox accent={item.accent} value={item.mark} />
+          <h3 class="mt-5 text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+            {item.title}
+          </h3>
+          <p class="mt-3 text-[15px] leading-7 text-[var(--ink-2)]">
+            {item.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

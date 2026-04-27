@@ -1,38 +1,64 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Container from '../components/ui/Container.astro';
-import Button from '../components/ui/Button.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Button from "../components/ui/Button.astro";
+import Logo from "../components/ui/Logo.astro";
 ---
 
 <BaseLayout
-  title="Página no encontrada"
-  description="La página que buscas no está disponible."
+  title="Pagina no encontrada | SUConsulting"
+  description="La pagina que buscas no esta disponible."
   noindex={true}
+  hideNavbar={true}
+  hideFooter={true}
+  bodyClass="bg-[var(--brand-navy)]"
 >
-  <section class="section-shell">
-    <Container>
-      <div class="hero-glow mx-auto max-w-4xl overflow-hidden rounded-4xl bg-[#051B3F] px-6 py-16 text-center text-white md:px-10 md:py-24">
-        <p class="text-sm font-bold uppercase tracking-[0.18em] text-white/70">Error 404</p>
-        <h1 class="mt-4 text-balance text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
-          Esta página no existe o fue movida.
+  <section class="relative min-h-screen overflow-hidden bg-[var(--brand-navy)] text-white">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_14%_18%,rgba(52,107,179,0.24),transparent_26%),radial-gradient(circle_at_86%_14%,rgba(197,71,147,0.16),transparent_20%)]"></div>
+    <div class="absolute left-[-4rem] top-[18%] h-52 w-52 rounded-full border border-white/10"></div>
+    <div class="absolute bottom-[-6rem] right-[-3rem] h-64 w-64 rounded-full border border-white/10"></div>
+
+    <Container class="relative z-10 flex min-h-screen flex-col justify-between py-8">
+      <div class="flex items-center justify-between gap-4">
+        <a href="/" aria-label="Volver al inicio">
+          <Logo tone="light" />
+        </a>
+
+        <Button href="/" variant="outline-light">
+          Volver al inicio
+        </Button>
+      </div>
+
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="text-sm font-black uppercase tracking-[0.24em] text-white/60">
+          Error 404
+        </p>
+        <p class="mt-6 text-[clamp(5rem,18vw,11rem)] font-black leading-none tracking-[-0.08em] text-white/12">
+          404
+        </p>
+        <h1 class="mt-4 text-balance text-4xl font-black tracking-[-0.06em] text-white md:text-6xl">
+          Esta pagina ya no esta aqui o nunca existio.
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/76">
-          Vuelve al inicio o dirígete a una sección principal del sitio para continuar navegando.
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/74">
+          Puedes volver al inicio, explorar nuestros servicios o retomar la navegacion desde una seccion principal del sitio.
         </p>
 
-        <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button href="/" size="lg" class="bg-white text-[#051B3F] hover:bg-white/95">
+        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button href="/" size="lg" variant="light">
             Ir al inicio
           </Button>
-          <Button
-            href="/contacto"
-            variant="secondary"
-            size="lg"
-            class="border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white"
-          >
-            Contacto
+          <Button href="/servicios" size="lg" variant="outline-light">
+            Ver servicios
           </Button>
         </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm font-bold text-white/54">
+        <span>Estrategia</span>
+        <span>•</span>
+        <span>Integridad</span>
+        <span>•</span>
+        <span>Proposito</span>
       </div>
     </Container>
   </section>

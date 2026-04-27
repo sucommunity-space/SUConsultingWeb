@@ -1,0 +1,30 @@
+---
+interface Props {
+  class?: string;
+  label?: string;
+  controls?: string;
+  expanded?: "true" | "false";
+  [key: string]: any;
+}
+
+const {
+  class: className = "",
+  label = "Abrir menu",
+  controls,
+  expanded = "false",
+  ...attrs
+} = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={["mobile-nav-toggle", className]}
+  aria-label={label}
+  aria-controls={controls}
+  aria-expanded={expanded}
+  {...attrs}
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>

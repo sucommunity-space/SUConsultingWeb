@@ -1,0 +1,134 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+  dark?: boolean;
+}
+
+const { items, dark = false } = Astro.props;
+---
+
+<div class="space-y-3" data-faq-accordion>
+  {items.map((item, index) => {
+    const isOpen = index === 0;
+
+    return (
+      <div
+        class:list={[
+          "overflow-hidden rounded-[1.35rem] border transition-all duration-300",
+          dark
+            ? "border-white/10 bg-white/5"
+            : "border-[rgba(5,27,63,0.08)] bg-white"
+        ]}
+        data-faq-item
+        data-open={isOpen ? "true" : "false"}
+      >
+        <button
+          type="button"
+          class:list={[
+            "flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-all duration-300 md:px-6 md:py-5",
+            dark
+              ? "text-white hover:bg-white/5"
+              : "text-[var(--brand-navy)] hover:bg-[rgba(5,27,63,0.03)]"
+          ]}
+          aria-expanded={isOpen ? "true" : "false"}
+          data-faq-trigger
+        >
+          <span class="text-[15px] font-black md:text-base">
+            {item.question}
+          </span>
+
+          <span
+            class:list={[
+              "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-lg font-black transition-all duration-300",
+              dark
+                ? "border-white/12 bg-white/5 text-white"
+                : "border-[rgba(5,27,63,0.08)] bg-[rgba(5,27,63,0.03)] text-[var(--brand-navy)]",
+              isOpen ? "rotate-45" : "rotate-0"
+            ]}
+            aria-hidden="true"
+            data-faq-icon
+          >
+            +
+          </span>
+        </button>
+
+        <div
+          class:list={[
+            "grid transition-all duration-300 ease-out",
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          ]}
+          data-faq-panel
+        >
+          <div class="overflow-hidden">
+            <div
+              class:list={[
+                "px-5 pb-5 pt-0 text-sm leading-7 md:px-6 md:pb-6",
+                dark ? "text-white/72" : "text-[var(--ink-2)]"
+              ]}
+            >
+              {item.answer}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<script>
+  document.querySelectorAll("[data-faq-accordion]").forEach((accordion) => {
+    if (!(accordion instanceof HTMLElement)) return;
+    if (accordion.dataset.faqReady === "true") return;
+
+    accordion.dataset.faqReady = "true";
+
+    const items = Array.from(accordion.querySelectorAll("[data-faq-item]"));
+
+    const setOpenState = (item, isOpen) => {
+      if (!(item instanceof HTMLElement)) return;
+
+      item.dataset.open = isOpen ? "true" : "false";
+
+      const trigger = item.querySelector("[data-faq-trigger]");
+      const panel = item.querySelector("[data-faq-panel]");
+      const icon = item.querySelector("[data-faq-icon]");
+
+      if (trigger instanceof HTMLButtonElement) {
+        trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+
+      if (panel instanceof HTMLElement) {
+        panel.classList.toggle("grid-rows-[1fr]", isOpen);
+        panel.classList.toggle("opacity-100", isOpen);
+        panel.classList.toggle("grid-rows-[0fr]", !isOpen);
+        panel.classList.toggle("opacity-0", !isOpen);
+      }
+
+      if (icon instanceof HTMLElement) {
+        icon.classList.toggle("rotate-45", isOpen);
+        icon.classList.toggle("rotate-0", !isOpen);
+      }
+    };
+
+    items.forEach((item) => {
+      const trigger = item.querySelector("[data-faq-trigger]");
+
+      if (!(trigger instanceof HTMLButtonElement)) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = item instanceof HTMLElement && item.dataset.open === "true";
+
+        items.forEach((candidate) => setOpenState(candidate, false));
+
+        if (!isOpen) {
+          setOpenState(item, true);
+        }
+      });
+    });
+  });
+</script>

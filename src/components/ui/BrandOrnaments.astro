@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+}
+
+const {
+  class: className = ""
+} = Astro.props;
+---
+
+<div class:list={["suc-page-ornaments", className]} aria-hidden="true">
+  <svg class="suc-page-ornament suc-page-ornament--plus" viewBox="0 0 120 120" fill="none">
+    <path d="M50 18H70V50H102V70H70V102H50V70H18V50H50V18Z" stroke="currentColor" stroke-width="10" stroke-linejoin="round" />
+  </svg>
+
+  <svg class="suc-page-ornament suc-page-ornament--triangle" viewBox="0 0 120 120" fill="none">
+    <path d="M60 20L100 92H20L60 20Z" stroke="currentColor" stroke-width="10" stroke-linejoin="round" />
+  </svg>
+
+  <svg class="suc-page-ornament suc-page-ornament--circle" viewBox="0 0 120 120" fill="none">
+    <circle cx="60" cy="60" r="36" stroke="currentColor" stroke-width="10" />
+  </svg>
+
+  <svg class="suc-page-ornament suc-page-ornament--square" viewBox="0 0 120 120" fill="none">
+    <rect x="24" y="24" width="72" height="72" rx="8" stroke="currentColor" stroke-width="10" />
+  </svg>
+</div>

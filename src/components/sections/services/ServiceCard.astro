@@ -1,0 +1,76 @@
+---
+import Card from "../../ui/Card.astro";
+import Button from "../../ui/Button.astro";
+import IconBox from "../../ui/IconBox.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  benefits: string[];
+  image: string;
+  accent?: "blue" | "green" | "orange" | "magenta";
+  order: string;
+  featured?: boolean;
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  benefits,
+  image,
+  accent = "blue",
+  order,
+  featured = false,
+  class: className = ""
+} = Astro.props;
+---
+
+<Card variant={featured ? "premium" : "soft"} class:list={["card-premium group h-full overflow-hidden rounded-[1.9rem] p-0", className]}>
+  <div class="relative overflow-hidden">
+    <img
+      src={image}
+      alt={title}
+      class="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+    />
+    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,27,63,0.06),rgba(5,27,63,0.42))]"></div>
+    <div class="absolute left-5 top-5">
+      <IconBox accent={accent} value={order} />
+    </div>
+  </div>
+
+  <div class="p-6 md:p-7">
+    <p class="text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-blue)]">
+      Servicio estrategico
+    </p>
+
+    <h3 class="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--brand-navy)]">
+      {title}
+    </h3>
+
+    <p class="mt-4 text-[15px] leading-7 text-[var(--ink-2)]">
+      {description}
+    </p>
+
+    <ul class="mt-6 space-y-3">
+      {benefits.map((benefit) => (
+        <li class="flex items-start gap-3 text-[15px] leading-7 text-[var(--ink-2)]">
+          <span class:list={[
+            "mt-2 h-2.5 w-2.5 rounded-full",
+            accent === "magenta" && "bg-[var(--brand-magenta)]",
+            accent === "blue" && "bg-[var(--brand-blue)]",
+            accent === "green" && "bg-[var(--brand-green)]",
+            accent === "orange" && "bg-[var(--brand-orange)]"
+          ]}></span>
+          <span>{benefit}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-7">
+      <Button href="/agendar-cita" variant="secondary">
+        Solicitar orientacion
+      </Button>
+    </div>
+  </div>
+</Card>

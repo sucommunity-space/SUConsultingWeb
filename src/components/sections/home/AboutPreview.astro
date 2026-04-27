@@ -1,0 +1,74 @@
+---
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+
+const pillars = [
+  {
+    title: "Comunidad",
+    text: "Construimos vínculos estratégicos entre líderes, empresarios y emprendedores con visión de crecimiento."
+  },
+  {
+    title: "Innovación",
+    text: "Diseñamos soluciones prácticas para ordenar, profesionalizar y fortalecer organizaciones."
+  },
+  {
+    title: "Propósito",
+    text: "Acompañamos decisiones empresariales con valores, integridad y sentido de impacto."
+  }
+];
+---
+
+<section class="about-preview section-space">
+  <Container>
+    <div class="about-preview__grid">
+      <div class="about-preview__media">
+        <div class="about-preview__image-wrap">
+          <img
+            src="/images/pages/about-hero-building.webp"
+            alt="Edificio corporativo moderno representando crecimiento empresarial"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="about-preview__floating-card">
+          <span>SUC</span>
+          <strong>Consultoría empresarial con propósito.</strong>
+        </div>
+      </div>
+
+      <div class="about-preview__content">
+        <span class="eyebrow">Sobre SUConsulting</span>
+
+        <h2 class="section-title">
+          Estrategia empresarial para crecer con propósito.
+        </h2>
+
+        <p class="lead">
+          Somos una consultora que acompaña a líderes, emprendedores y organizaciones
+          a ordenar sus decisiones, fortalecer su gestión y construir empresas más sólidas,
+          sostenibles y humanas.
+        </p>
+
+        <div class="about-preview__pillars">
+          {pillars.map((pillar) => (
+            <article class="about-preview__pillar">
+              <h3>{pillar.title}</h3>
+              <p>{pillar.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <div class="about-preview__actions">
+          <Button href="/quienes-somos" effect="liquid">
+            Conoce quiénes somos
+            <span aria-hidden="true">→</span>
+          </Button>
+
+          <a href="/agendar-cita" class="about-preview__link">
+            Agendar conversación
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

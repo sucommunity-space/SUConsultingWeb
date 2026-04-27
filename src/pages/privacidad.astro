@@ -1,63 +1,97 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Container from '../components/ui/Container.astro';
-import PageHeader from '../components/layout/PageHeader.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/layout/PageHeader.astro";
+import Container from "../components/ui/Container.astro";
+import Card from "../components/ui/Card.astro";
+import CTABox from "../components/ui/CTABox.astro";
+
+const sections = [
+  {
+    id: "informacion",
+    title: "1. Informacion que recopilamos",
+    body: "Podemos recibir informacion enviada voluntariamente por el usuario mediante formularios del sitio, como nombre, correo, telefono, empresa, servicio de interes y mensaje."
+  },
+  {
+    id: "finalidad",
+    title: "2. Finalidad del tratamiento",
+    body: "La informacion se utiliza para responder consultas, orientar sobre servicios, coordinar reuniones y mantener seguimiento relacionado con la solicitud enviada."
+  },
+  {
+    id: "resguardo",
+    title: "3. Uso responsable y resguardo",
+    body: "SUConsulting procura tratar la informacion con responsabilidad y aplicar medidas razonables para evitar accesos no autorizados o usos indebidos."
+  },
+  {
+    id: "terceros",
+    title: "4. Servicios de terceros",
+    body: "El sitio puede apoyarse en herramientas externas para funciones como correo, anti-bot, analitica o agenda. Cada proveedor puede manejar informacion bajo sus propias politicas."
+  },
+  {
+    id: "derechos",
+    title: "5. Consultas y actualizaciones",
+    body: "Si deseas consultar, actualizar o ampliar informacion relacionada con el uso de tus datos en este sitio, puedes escribirnos por los canales oficiales mostrados en la pagina de contacto."
+  }
+];
 ---
 
 <BaseLayout
-  title="Política de privacidad"
-  description="Política de privacidad y tratamiento de datos de SUConsulting."
+  title="Politica de privacidad | SUConsulting"
+  description="Politica de privacidad y tratamiento general de datos de SUConsulting."
 >
   <PageHeader
+    variant="minimal"
     eyebrow="Legal"
-    title="Política de privacidad"
-    description="Este documento describe de forma general cómo SUConsulting trata la información enviada mediante el sitio web."
+    title="Politica de privacidad"
+    description="Este documento resume de forma clara como SUConsulting trata la informacion enviada a traves del sitio web y los canales asociados."
+    primaryCtaHref="/contacto"
+    primaryCtaLabel="Contactar"
+    secondaryCtaHref="/agendar-cita"
+    secondaryCtaLabel="Agendar una reunion"
   />
 
-  <section class="section-shell">
-    <Container class="max-w-4xl">
-      <article class="surface-card space-y-8 p-6 md:p-8">
-        <section class="space-y-3">
-          <h2 class="text-2xl font-extrabold text-[#051B3F]">1. Información que recopilamos</h2>
-          <p class="leading-8 text-slate-600">
-            Podemos recopilar datos enviados voluntariamente por el usuario mediante formularios,
-            como nombre, correo electrónico, teléfono, servicio de interés y mensaje.
+  <section class="section-space-sm">
+    <Container class="grid gap-8 xl:grid-cols-[0.26fr_0.74fr]">
+      <aside class="xl:sticky xl:top-28 xl:self-start">
+        <Card variant="premium" class="card-premium rounded-[1.8rem] p-6">
+          <p class="text-sm font-black uppercase tracking-[0.18em] text-[var(--brand-blue)]">
+            Indice
           </p>
-        </section>
+          <nav class="mt-5 grid gap-3">
+            {sections.map((section) => (
+              <a href={`#${section.id}`} class="rounded-[1rem] border border-[rgba(5,27,63,0.08)] bg-white px-4 py-3 text-sm font-extrabold text-[var(--brand-navy)] transition hover:border-[rgba(52,107,179,0.24)] hover:translate-x-1">
+                {section.title}
+              </a>
+            ))}
+          </nav>
+        </Card>
+      </aside>
 
-        <section class="space-y-3">
-          <h2 class="text-2xl font-extrabold text-[#051B3F]">2. Finalidad del tratamiento</h2>
-          <p class="leading-8 text-slate-600">
-            La información se utiliza para responder consultas, orientar sobre servicios,
-            coordinar reuniones y mantener seguimiento relacionado con la solicitud enviada.
-          </p>
-        </section>
+      <Card variant="premium" class="card-premium rounded-[2rem] p-6 md:p-8 lg:p-10">
+        <div class="space-y-6">
+          {sections.map((section) => (
+            <section id={section.id} class="scroll-mt-28 rounded-[1.5rem] border border-[rgba(5,27,63,0.08)] bg-white px-5 py-6 md:px-6">
+              <h2 class="text-2xl font-black tracking-[-0.04em] text-[var(--brand-navy)]">
+                {section.title}
+              </h2>
+              <p class="mt-4 text-[15px] leading-8 text-[var(--ink-2)]">
+                {section.body}
+              </p>
+            </section>
+          ))}
+        </div>
+      </Card>
+    </Container>
+  </section>
 
-        <section class="space-y-3">
-          <h2 class="text-2xl font-extrabold text-[#051B3F]">3. Uso responsable</h2>
-          <p class="leading-8 text-slate-600">
-            SUConsulting procura tratar la información con responsabilidad y aplicar medidas
-            razonables para evitar accesos no autorizados o usos indebidos.
-          </p>
-        </section>
-
-        <section class="space-y-3">
-          <h2 class="text-2xl font-extrabold text-[#051B3F]">4. Servicios de terceros</h2>
-          <p class="leading-8 text-slate-600">
-            Este sitio puede apoyarse en servicios externos necesarios para operar funciones
-            como protección anti-bot, correo o agendamiento. Cada proveedor puede manejar
-            datos bajo sus propias políticas.
-          </p>
-        </section>
-
-        <section class="space-y-3">
-          <h2 class="text-2xl font-extrabold text-[#051B3F]">5. Contacto</h2>
-          <p class="leading-8 text-slate-600">
-            Si deseas consultar o actualizar información enviada mediante este sitio,
-            puedes comunicarte por los canales oficiales mostrados en la página de contacto.
-          </p>
-        </section>
-      </article>
+  <section class="section-space-sm">
+    <Container>
+      <CTABox
+        eyebrow="Necesitas apoyo?"
+        title="Si tienes dudas sobre privacidad o sobre el uso de tus datos, podemos orientarte."
+        description="Escribenos y te responderemos por los canales oficiales de SUConsulting con la claridad que corresponde a una relacion profesional."
+        primaryCtaHref="/contacto"
+        primaryCtaLabel="Ir a contacto"
+      />
     </Container>
   </section>
 </BaseLayout>

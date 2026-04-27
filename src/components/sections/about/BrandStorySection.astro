@@ -1,0 +1,66 @@
+---
+import Container from "../../ui/Container.astro";
+import Card from "../../ui/Card.astro";
+import Button from "../../ui/Button.astro";
+import IconBox from "../../ui/IconBox.astro";
+import { pageImages } from "../../../data/media";
+
+const storyPoints = [
+  "Base cristiana orientada al servicio y la integridad.",
+  "Acompanamiento real para empresas, emprendedores y familias empresarias.",
+  "Estrategia con criterio, orden y mirada de largo plazo."
+];
+---
+
+<section class="section-space">
+  <Container>
+    <Card variant="dark" class="group relative overflow-hidden rounded-[2rem] p-0 suc-pattern">
+      <div class="grid lg:grid-cols-[0.56fr_0.44fr]">
+        <div class="p-7 md:p-9 lg:p-12">
+          <p class="text-sm font-black uppercase tracking-[0.18em] text-white/66">
+            Nuestra historia
+          </p>
+
+          <h2 class="mt-4 max-w-[12ch] text-4xl font-black leading-none tracking-[-0.06em] text-white md:text-5xl">
+            Una firma consultiva que nace desde el proposito.
+          </h2>
+
+          <p class="mt-5 max-w-2xl text-[15px] leading-8 text-white/74">
+            SUConsulting forma parte del ecosistema de SUC CORPORATION SAC y se proyecta como
+            una consultora empresarial que une servicio, disciplina y vision estrategica para
+            acompanar organizaciones en etapas de crecimiento, orden y transformacion.
+          </p>
+
+          <p class="mt-4 max-w-2xl text-[15px] leading-8 text-white/74">
+            Nuestra propuesta no busca impresionar desde la forma vacia, sino transmitir fondo:
+            confianza, coherencia institucional, base de fe y capacidad real para sostener
+            procesos empresariales con mayor claridad.
+          </p>
+
+          <div class="mt-8 grid gap-4 sm:grid-cols-3">
+            {storyPoints.map((item, index) => (
+              <div class:list={["rounded-[1.35rem] border border-white/10 bg-white/6 p-4", "reveal", index === 1 && "reveal-delay-1", index === 2 && "reveal-delay-2"]}>
+                <IconBox accent={index === 0 ? "magenta" : index === 1 ? "blue" : "green"} value={String(index + 1).padStart(2, "0")} />
+                <p class="mt-4 text-sm font-bold leading-7 text-white/82">{item}</p>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button href="/servicios">Explorar servicios</Button>
+            <Button href="/agendar-cita" variant="outline-light">Agendar una reunion</Button>
+          </div>
+        </div>
+
+        <div class="relative min-h-[360px] lg:min-h-full">
+          <img
+            src={pageImages.brandStory}
+            alt="Historia institucional de SUConsulting"
+            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          />
+          <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,27,63,0.12),rgba(5,27,63,0.5))]"></div>
+        </div>
+      </div>
+    </Card>
+  </Container>
+</section>
