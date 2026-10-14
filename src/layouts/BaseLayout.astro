@@ -54,7 +54,12 @@ const {
       (() => {
         document.documentElement.classList.add("has-js");
 
-        if (isHomePage) {
+        let hasSeenIntro = false;
+        try {
+          hasSeenIntro = sessionStorage.getItem("su:intro-seen") === "1";
+        } catch {}
+
+        if (isHomePage && !hasSeenIntro && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           document.documentElement.classList.add("preloader-active");
           document.documentElement.classList.remove("preloader-complete");
         } else {

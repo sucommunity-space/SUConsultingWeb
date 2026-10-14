@@ -38,6 +38,12 @@ jobs:
             if test "$status" = healthy; then
               docker exec suconsulting-ci wget -q -O /dev/null http://127.0.0.1:8080/
               docker exec suconsulting-ci nginx -t
+              for route in servicios quienes-somos profesionales contacto agendar-cita; do
+                headers=$(docker exec suconsulting-ci wget -S -O /dev/null "http://127.0.0.1:8080/$route" 2>&1)
+                grep '200 OK' <<< "$headers"
+                # wget puede seguir redirects; rechazar cualquier redirección intermedia.
+                if grep -E 'HTTP/[0-9.]+ 30[1278]' <<< "$headers"; then exit 1; fi
+              done
               exit 0
             fi
             sleep 2

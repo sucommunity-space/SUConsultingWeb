@@ -29,9 +29,9 @@ const slides = [
 
 <section class="suc-hero" aria-label="Portada principal de SUConsulting">
   <div class="suc-hero__slider" aria-hidden="true">
-    {slides.map((slide) => (
+    {slides.map((slide, index) => (
       <div class="suc-hero__slide">
-        <img src={slide.src} alt={slide.alt} loading="eager" decoding="async" />
+        <img src={slide.src} alt={slide.alt} loading="eager" fetchpriority={index === 0 ? "high" : "low"} decoding="async" />
       </div>
     ))}
   </div>

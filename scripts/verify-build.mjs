@@ -25,12 +25,20 @@ for (const file of pages) {
     const value = match[1].replaceAll('&amp;', '&');
     if (!value || /^(#|mailto:|tel:|data:|javascript:)/.test(value)) continue;
     const url = new URL(value, base);
+    if (url.hostname === 'suconsulting.es') {
+      assert(url.protocol === 'https:' && !url.port, `URL pública con protocolo o puerto incorrecto: ${value}`);
+    }
     if (url.origin !== origin) continue;
     const candidate = path.resolve(root, `.${decodeURIComponent(url.pathname)}`);
     assert(candidate === root || candidate.startsWith(root + path.sep), 'Ruta fuera del build.');
     assert([candidate, path.join(candidate, 'index.html'), candidate + '.html'].some(p => fs.existsSync(p) && fs.statSync(p).isFile()),
       `Recurso o enlace local inexistente: ${relative} -> ${url.pathname}`);
     references++;
+  }
+}
+for (const file of files.filter(file => file.endsWith('.css'))) {
+  for (const match of fs.readFileSync(file, 'utf8').matchAll(/url\(["']?(\/images\/[^"')]+)["']?\)/g)) {
+    assert(fs.existsSync(path.join(root, match[1])), `Imagen de CSS inexistente: ${match[1]}`);
   }
 }
 assert(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8').includes(`${origin}/sitemap-index.xml`));

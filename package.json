@@ -7,10 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/optimize-images.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "verify:build": "node scripts/verify-build.mjs"
+    "verify:build": "node scripts/verify-build.mjs && node --test scripts/preloader.test.mjs"
   },
   "dependencies": {
     "@astrojs/react": "7.0.1",
@@ -22,5 +22,8 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "sharp": "0.35.5"
   }
 }
