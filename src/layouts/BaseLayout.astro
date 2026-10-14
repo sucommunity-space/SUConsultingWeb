@@ -42,6 +42,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/suc-icon.ico" />
     <meta name="theme-color" content="#051b3f" />
+    {isHomePage && <link rel="preload" href="/suc-preload.svg" as="fetch" crossorigin="anonymous" />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -54,12 +55,7 @@ const {
       (() => {
         document.documentElement.classList.add("has-js");
 
-        let hasSeenIntro = false;
-        try {
-          hasSeenIntro = sessionStorage.getItem("su:intro-seen") === "1";
-        } catch {}
-
-        if (isHomePage && !hasSeenIntro && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (isHomePage && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           document.documentElement.classList.add("preloader-active");
           document.documentElement.classList.remove("preloader-complete");
         } else {
