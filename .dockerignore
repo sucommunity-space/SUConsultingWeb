@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+dist
+.astro
+.vscode
+.env
+.env.*
+backend
+docs
+*.log
+*.tar
+*.tgz

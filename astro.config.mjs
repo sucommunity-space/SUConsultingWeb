@@ -8,7 +8,8 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   devToolbar: { enabled: false },
-  site: 'https://suconsulting.pe',
+  site: 'https://suconsulting.es',
+  compressHTML: true,
   vite: {
     plugins: [tailwindcss()],
     server: {

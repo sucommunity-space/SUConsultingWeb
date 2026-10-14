@@ -1,0 +1,46 @@
+name: Verificar SuConsulting
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build && npm run verify:build
+      - run: bash -n deploy/update.sh && bash -n deploy/ssh-command.sh
+      - name: Construir imagen reproducible
+        run: docker build --build-arg REVISION="${GITHUB_SHA}" -t suconsulting:verify .
+      - name: Probar runtime aislado
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          trap 'docker rm -f suconsulting-ci >/dev/null 2>&1 || true' EXIT
+          docker run -d --name suconsulting-ci --network none --read-only \
+            --tmpfs /tmp:rw,noexec,nosuid,size=32m,mode=1777 --cap-drop ALL \
+            --security-opt no-new-privileges:true --memory 128m --cpus 0.5 \
+            --pids-limit 64 --health-interval 2s suconsulting:verify
+          for attempt in {1..30}; do
+            status=$(docker inspect --format '{{.State.Health.Status}}' suconsulting-ci)
+            if test "$status" = healthy; then
+              docker exec suconsulting-ci wget -q -O /dev/null http://127.0.0.1:8080/
+              docker exec suconsulting-ci nginx -t
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'Runtime no saludable.' >&2
+          exit 1

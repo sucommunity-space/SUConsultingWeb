@@ -1,0 +1,30 @@
+name: suconsulting
+services:
+  web:
+    image: ${SUCONSULTING_IMAGE:?Definir la imagen identificada por commit}
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=32m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    cpus: 0.50
+    pids_limit: 64
+    expose:
+      - "8080"
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+    networks:
+      edge:
+        aliases:
+          - suconsulting-web
+networks:
+  edge:
+    external: true
+    name: suconsulting_edge

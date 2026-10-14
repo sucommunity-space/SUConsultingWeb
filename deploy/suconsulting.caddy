@@ -1,0 +1,8 @@
+suconsulting.es {
+    encode zstd gzip
+    reverse_proxy suconsulting-web:8080
+}
+
+www.suconsulting.es {
+    redir https://suconsulting.es{uri} 301
+}

@@ -1,0 +1,84 @@
+name: Publicar imagen y despliegue aprobado
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Desplegar después de publicar; requiere habilitación y aprobación del entorno
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: suconsulting-production
+  cancel-in-progress: false
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      revision: ${{ steps.metadata.outputs.revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Identificar imagen
+        id: metadata
+        shell: bash
+        run: |
+          printf 'revision=%s\n' "$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+          printf 'IMAGE=ghcr.io/%s:%s\n' "${GITHUB_REPOSITORY,,}" "$GITHUB_SHA" >> "$GITHUB_ENV"
+      - name: Construir y validar
+        run: |
+          set -Eeuo pipefail
+          docker build --build-arg REVISION="$GITHUB_SHA" -t "$IMAGE" .
+          trap 'docker rm -f suconsulting-publish-test >/dev/null 2>&1 || true' EXIT
+          docker run -d --name suconsulting-publish-test --network none --read-only \
+            --tmpfs /tmp:rw,noexec,nosuid,size=32m,mode=1777 --cap-drop ALL \
+            --security-opt no-new-privileges:true --memory 128m --cpus 0.5 \
+            --pids-limit 64 --health-interval 2s "$IMAGE"
+          for attempt in {1..30}; do
+            if test "$(docker inspect --format '{{.State.Health.Status}}' suconsulting-publish-test)" = healthy; then
+              docker exec suconsulting-publish-test wget -q -O /dev/null http://127.0.0.1:8080/
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
+      - name: Autenticar y publicar GHCR
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -Eeuo pipefail
+          trap 'docker logout ghcr.io >/dev/null 2>&1 || true' EXIT
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker push "$IMAGE"
+  deploy:
+    needs: image
+    if: inputs.deploy && vars.PRODUCTION_DEPLOYMENT_ENABLED == 'true'
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Desplegar con cuenta limitada
+        env:
+          DEPLOY_KEY: ${{ secrets.SUCONSULTING_DEPLOY_KEY }}
+          KNOWN_HOSTS: ${{ secrets.SUCONSULTING_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ vars.SUCONSULTING_DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.SUCONSULTING_DEPLOY_USER }}
+          REVISION: ${{ needs.image.outputs.revision }}
+        run: |
+          set -Eeuo pipefail
+          test "$DEPLOY_USER" = suconsulting-deploy
+          test -n "$DEPLOY_HOST" && test -n "$DEPLOY_KEY" && test -n "$KNOWN_HOSTS"
+          umask 077
+          mkdir -p "$RUNNER_TEMP/suconsulting-ssh"
+          printf '%s\n' "$DEPLOY_KEY" > "$RUNNER_TEMP/suconsulting-ssh/key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/suconsulting-ssh/known_hosts"
+          trap 'rm -f "$RUNNER_TEMP/suconsulting-ssh/key"' EXIT
+          ssh -i "$RUNNER_TEMP/suconsulting-ssh/key" -o IdentitiesOnly=yes \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/suconsulting-ssh/known_hosts" \
+            "$DEPLOY_USER@$DEPLOY_HOST" "deploy $REVISION"
